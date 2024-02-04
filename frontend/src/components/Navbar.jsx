@@ -47,6 +47,12 @@ const Navbar = () => {
                     </Link>
                 </li>
 
+                <li className="px-3.5 hover:text-emerald-400">
+                    <Link to="/income">
+                        <h1>INCOME</h1>
+                    </Link>
+                </li>
+
                 <button onClick={handleLogout}>LOG OUT</button>
             </ul>
 

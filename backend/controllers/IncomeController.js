@@ -1,11 +1,13 @@
 import mongoose from 'mongoose'
 import Income from '../models/IncomeModel.js'
+import User from "../models/UserModel.js"
 
 // *GET ALL INCOME
 
 const getIncome = async (req, res) => {
     try {
-        const income = await Income.find({}).sort({ createdAt: -1 })
+        const user_id = req.user._id
+        const income = await Income.find({ user_id }).sort({ createdAt: -1 })
         res.status(200).json(income)
     }
     catch (error) {
@@ -35,18 +37,45 @@ const getIdIncome = async (req, res) => {
 // *CREATE NEW INCOME
 
 const createIncome = async (req, res) => {
-    const { user_id, description, amount, type } = req.body
+    const { title, description, amount, type } = req.body
+
+    let emptyFields = []
+
+    if (!title) {
+        emptyFields.push('title')
+    }
+    if (!amount) {
+        emptyFields.push('amount')
+    }
+    if (!type) {
+        emptyFields.push('type')
+    }
+    if (emptyFields.length > 0) {
+        return res.status(400).json({ error: 'Please Fill in all the fields', emptyFields })
+    }
 
     try {
+
+        const user_id = req.user._id
+        const IncomedUser = await User.findById(user_id);
+
         const income = await Income.create({
-            user_id, description, amount, type
+            user_id, title, description, amount, type
         })
+
+
+        IncomedUser.userMoney += amount;
+        await IncomedUser.save(); // Save the updated user
+
         res.status(200).json(income)
+
+    } catch (error) {
+        res.status(500).json({ error: error.message, })
     }
-    catch (error) {
-        res.status(400).json(error)
-    }
-}
+};
+
+
+
 
 // *DELETE INCOME BY ID
 

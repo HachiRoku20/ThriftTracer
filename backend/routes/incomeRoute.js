@@ -1,8 +1,11 @@
 import express, { response } from "express"
 import { createIncome, getIncome, getIdIncome, deleteIdIncome, updateIdIncome } from "../controllers/IncomeController.js";
+import { requireAuth } from '../middleware/requireAuth.js'
 
 
 const router = express.Router();
+
+router.use(requireAuth);
 
 
 // *GET All (Income)
