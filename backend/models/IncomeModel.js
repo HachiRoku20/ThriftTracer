@@ -7,9 +7,12 @@ const incomeSchema = new Schema({
         type: String,
         required: true
     },
-    description: {
+    title: {
         type: String,
         required: true
+    },
+    description: {
+        type: String
     },
     amount: {
         type: String,

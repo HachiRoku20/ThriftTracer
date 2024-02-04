@@ -3,23 +3,31 @@ import ExpensesComponent from "./ExpensesComponent.jsx";
 import ExpensesForm from '../components/ExpensesForm.jsx'
 import { useExpensesContext } from "../hooks/useExpensesContext.jsx";
 
+import { useAuthContext } from "../hooks/userAuthContext.jsx";
+
 
 const ExpensesPage = () => {
 
     // const [expenses, setExpenses] = useState(null)
 
     const { expenses, dispatch } = useExpensesContext()
+    const { user } = useAuthContext()
 
 
 
 
 
     // Sets INITIAL STATE for EXPENSES using CONTEXT
+
     useEffect(() => {
         const fetchExpenses = async () => {
 
             //*Fetches Expenses Log
-            const response = await fetch('http://localhost:5555/expenses');
+            const response = await fetch('http://localhost:5555/expenses', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
             //*Converts to JSON Format
             const json = await response.json();
 
@@ -30,10 +38,12 @@ const ExpensesPage = () => {
             }
         }
 
-
-        fetchExpenses();
+        if (user) {
+            fetchExpenses();
+        }
 
     }, [])
+
 
 
     console.log(expenses);

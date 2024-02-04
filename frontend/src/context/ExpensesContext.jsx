@@ -1,5 +1,6 @@
 import { useReducer } from 'react'
 import { createContext } from 'react'
+import { useEffect } from 'react'
 
 
 export const ExpensesContext = createContext()
@@ -31,6 +32,26 @@ export const expensesReducer = (state, action) => {
 
 
 export const ExpensesContextProvider = ({ children }) => {
+
+    // useEffect(() => {
+    //     const fetchExpenses = async () => {
+
+    //         //*Fetches Expenses Log
+    //         const response = await fetch('http://localhost:5555/expenses');
+    //         //*Converts to JSON Format
+    //         const json = await response.json();
+
+    //         //*State Setter for (expenses)
+    //         if (response.ok) {
+    //             dispatch({ type: 'SET_EXPENSES', payload: json })
+
+    //         }
+    //     }
+
+
+    //     fetchExpenses();
+
+    // }, [])
 
     const [state, dispatch] = useReducer(expensesReducer, {
         expenses: null

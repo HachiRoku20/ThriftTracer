@@ -1,11 +1,11 @@
 import express, { response } from "express"
-import { PORT, mongodbURL } from "./config.js";
 import dotenv from 'dotenv'
 import mongoose from "mongoose";
 import ExpensesRoute from './routes/expensesRoute.js';
 import IncomeRoute from './routes/incomeRoute.js';
 import UserRoute from './routes/UserRoute.js';
 import cors from 'cors';
+
 
 // *DOT ENV
 dotenv.config();
@@ -24,6 +24,7 @@ app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
 })
+
 
 // ^Get Request Test (Express)
 // app.get('/', (req, res) => {
@@ -49,4 +50,4 @@ mongoose.connect(process.env.mongodbURL)
 // *ROUTES
 app.use('/expenses', ExpensesRoute)
 app.use('/income', IncomeRoute)
-app.use('', UserRoute)
+app.use('/user', UserRoute)

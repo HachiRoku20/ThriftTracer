@@ -1,8 +1,11 @@
 import express, { response } from "express"
 import { createExpenses, getExpenses, getIdExpenses, deleteIdExpenses, updateIdExpenses } from "../controllers/ExpensesController.js";
+import { requireAuth } from '../middleware/requireAuth.js'
 
 
 const router = express.Router();
+
+router.use(requireAuth);
 
 
 // *GET All (Expenses)

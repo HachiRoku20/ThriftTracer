@@ -1,20 +1,25 @@
 import { useState } from "react"
 import { useExpensesContext } from "../hooks/useExpensesContext"
 
+
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { useAuthContext } from "../hooks/userAuthContext"
 
 
 
 const ExpensesForm = () => {
 
+    const { user } = useAuthContext()
+
     const { dispatch } = useExpensesContext()
 
-    const [user, setUser] = useState('')
+    const [title, setTitle] = useState('')
     const [description, setDesc] = useState('')
     const [amount, setamount] = useState('')
     const [category, setcategory] = useState('')
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
+    const [confirmMessage, setConfirmMessage] = useState(null)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -23,7 +28,7 @@ const ExpensesForm = () => {
 
 
 
-        const expense = { user_id: user, description, amount, category }
+        const expense = { title, description, amount, category }
 
         console.log(JSON.stringify(expense))
 
@@ -31,11 +36,14 @@ const ExpensesForm = () => {
             method: 'POST',
             body: JSON.stringify(expense),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
         const json = await response.json()
+        console.log(json.error)
+        console.log(json.emptyFields)
 
         if (!response.ok) {
             setError(json.error)
@@ -43,12 +51,13 @@ const ExpensesForm = () => {
 
         } else
             if (response.ok) {
-                setUser('')
+                setTitle('')
                 setDesc('')
                 setamount('')
                 setcategory('')
                 setError(null)
                 setEmptyFields([])
+                setConfirmMessage(amount)
                 console.log('expense recorded', json)
                 dispatch({ type: 'CREATE_EXPENSES', payload: json })
             }
@@ -70,12 +79,12 @@ const ExpensesForm = () => {
             <form className="flex flex-col text-slate-50" onSubmit={handleSubmit}>
                 <h3 className="mx-auto font-bold text-red-600 md:text-4xl">ADD EXPENSE</h3>
 
-                <label className="p-4"> User </label>
+                <label className="p-4"> Title </label>
                 <input
                     type="text"
-                    onChange={(test) => setUser(test.target.value)}
-                    value={user}
-                    className={"outline-none sm:text-xl font-bold bg-gray-800 p-2 rounded-md " + (emptyFields.includes('user_id') ? "outline-red-700" : "")}
+                    onChange={(test) => setTitle(test.target.value)}
+                    value={title}
+                    className={"outline-none sm:text-xl font-bold bg-gray-800 p-2 rounded-md " + (emptyFields.includes('title') ? "outline-red-700" : "")}
                 />
 
                 <label className="p-4"> Description </label>
@@ -117,6 +126,9 @@ const ExpensesForm = () => {
                 <div className="flex flex-col space-bet justify-between">
                     <button className="rounded-md bg-emerald-400 p-2 m-6 w-fit justify-self-end	self-center font-bold">ADD EXPENSE</button>
                     {error && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 font-bold">{error}</div>}
+                </div>
+                <div className="flex flex-col space-bet justify-between">
+                    {confirmMessage && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 font-bold">`${confirmMessage} removed from user's account`</div>}
                 </div>
 
             </form >
