@@ -1,18 +1,55 @@
 import mongoose from "mongoose"
 import User from "../models/UserModel.js"
+import bcrypt from "bcrypt"
+import jwt from 'jsonwebtoken'
+
+const createToken = (_id) => {
+    return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '3d' })
+
+}
+
+
+
+const loginUser = async (req, res) => {
+    const { email, password } = req.body
+
+    try {
+
+
+        const user = await User.login(email, password)
+
+        const token = createToken(user._id)
+
+        res.status(200).json({ username: user.username, token })
+
+    } catch (error) {
+        res.status(400).json(error.message);
+    }
+
+}
+
+
+
+
+
+
 
 
 const addUser = async (req, res) => {
-    const { user_id, username, password, userMoney } = req.body;
+    const { email, username, password } = req.body;
+
 
     try {
-        const user = await User.create({
-            user_id, username, password, userMoney
-        })
-        res.status(200).json(user)
+
+
+        const user = await User.signup(email, username, password)
+
+        const token = createToken(user._id)
+
+        res.status(200).json({ username, token })
 
     } catch (error) {
-        res.status(400).json(error)
+        res.status(400).json(error.message);
     }
 }
 
@@ -34,4 +71,4 @@ const searchUserById = async (req, res) => {
 
 }
 
-export { addUser, searchUserById };
+export { addUser, searchUserById, loginUser };

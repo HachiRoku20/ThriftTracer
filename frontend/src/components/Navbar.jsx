@@ -1,16 +1,21 @@
 import { Link } from "react-router-dom"
 import { FiAlignJustify } from "react-icons/fi";
 import React, { useState } from "react";
+import { useLogout } from "../hooks/useLogout";
 
 
 const Navbar = () => {
 
     const [navSwitch, setNavSwitch] = useState(false);
+    const { logout } = useLogout();
 
     const handleNavSwitch = () => {
         navSwitch ? setNavSwitch(false) : setNavSwitch(true);
     }
 
+    const handleLogout = () => {
+        logout();
+    }
 
 
 
@@ -20,7 +25,14 @@ const Navbar = () => {
         <header className="flex justify-between items-center h-24 mx-auto px-4 max-w-screen-xl">
 
             {/* NAVBAR PC */}
-            <h1 className="w-full text-3xl font-bold text-emerald-400">Thrift Tracer</h1>
+
+            <div className="w-full text-3xl font-bold text-emerald-400">
+                <Link to="/">
+                    <h1>Thrift Tracer</h1>
+                </Link>
+            </div>
+
+
 
             <ul className="flex justify-between items-center h-24 mx-auto text-slate-50 font-semibold hidden md:flex">
                 <li className="px-3.5 hover:text-emerald-400">
@@ -34,6 +46,8 @@ const Navbar = () => {
                         <h1>EXPENSES</h1>
                     </Link>
                 </li>
+
+                <button onClick={handleLogout}>LOG OUT</button>
             </ul>
 
             {/* NAVBAR MOBILE ICON */}

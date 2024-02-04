@@ -1,17 +1,23 @@
 import { useExpensesContext } from "../hooks/useExpensesContext";
 import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
+import { useAuthContext } from "../hooks/userAuthContext";
+
 
 const ExpensesComponent = ({ expense }) => {
 
     const { dispatch } = useExpensesContext()
+    const { user } = useAuthContext()
 
 
     const handleClick = async () => {
 
         const response = await fetch('http://localhost:5555/expenses/' + expense._id,
             {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
             })
 
         const json = await response.json();
@@ -25,7 +31,7 @@ const ExpensesComponent = ({ expense }) => {
     return (
         <div className="p-4 my-2 mx-4 flex flex-col bg-gray-800 rounded-md">
             <div className="flex space-bet justify-between">
-                <h2>USER: {expense.user_id}</h2>
+                <h2>USER: {expense.title}</h2>
                 <button className="rounded-xl bg-red-700 w-fit p-1 " onClick={handleClick}><MdDelete size={15} /></button>
             </div>
 

@@ -6,7 +6,8 @@ import User from "../models/UserModel.js"
 
 const getExpenses = async (req, res) => {
     try {
-        const expenses = await Expenses.find({}).sort({ createdAt: -1 })
+        const user_id = req.user._id
+        const expenses = await Expenses.find({ user_id }).sort({ createdAt: -1 })
         res.status(200).json(expenses)
     }
     catch (error) {
@@ -37,12 +38,12 @@ const getIdExpenses = async (req, res) => {
 
 
 const createExpenses = async (req, res) => {
-    const { user_id, description, amount, category } = req.body
+    const { title, description, amount, category } = req.body
 
     let emptyFields = []
 
-    if (!user_id) {
-        emptyFields.push('user_id')
+    if (!title) {
+        emptyFields.push('title')
     }
     if (!amount) {
         emptyFields.push('amount')
@@ -54,13 +55,21 @@ const createExpenses = async (req, res) => {
         return res.status(400).json({ error: 'Please Fill in all the fields', emptyFields })
     }
 
-
     try {
 
+        const user_id = req.user._id
+        const ExpensedUser = await User.findById(user_id);
+        if (ExpensedUser.userMoney < amount) {
+            return res.status(400).json({ error: 'Cannot Process Expense: Insufficient Amount of Money', emptyFields })
+        }
 
         const expenses = await Expenses.create({
-            user_id, description, amount, category
+            user_id, title, description, amount, category
         })
+
+
+        ExpensedUser.userMoney -= amount;
+        await ExpensedUser.save(); // Save the updated user
 
         res.status(200).json(expenses)
 
@@ -68,39 +77,6 @@ const createExpenses = async (req, res) => {
         res.status(500).json({ error: error.message, })
     }
 };
-
-
-// const createExpenses = async (req, res) => {
-//     const { user_id, description, amount, category } = req.body
-
-//     const { id } = req.params
-
-//     try {
-//         if (!mongoose.Types.ObjectId.isValid(id)) {
-//             return res.status(404).json({ error: 'User does not exist' });
-//         }
-
-//         const ExpensedUser = await User.findById(id);
-
-//         if (!ExpensedUser) {
-//             return res.status(404).json({ error: 'User does not exist' });
-//         } else {
-//             ExpensedUser.userMoney -= amount;
-//             await ExpensedUser.save(); // Save the updated user
-
-//             const expenses = await Expenses.create({
-//                 user_id, description, amount, category
-//             });
-
-//             res.status(200).json({
-//                 message: `Amount: ${amount} removed from user's account`,
-//                 expenses
-//             });
-//         }
-//     } catch (error) {
-//         res.status(500).json({ error: 'Internal server error' });
-//     }
-// };
 
 
 // *DELETE EXPENSES BY ID
