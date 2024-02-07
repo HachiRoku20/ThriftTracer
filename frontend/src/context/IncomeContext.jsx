@@ -3,24 +3,24 @@ import { createContext } from 'react'
 import { useEffect } from 'react'
 
 
-export const ExpensesContext = createContext()
+export const IncomeContext = createContext()
 
 
-export const expensesReducer = (state, action) => {
+export const incomeReducer = (state, action) => {
     switch (action.type) {
-        case 'SET_EXPENSES':
+        case 'SET_INCOME':
             return {
-                expenses: action.payload
+                income: action.payload
             }
 
-        case 'CREATE_EXPENSES':
+        case 'CREATE_INCOME':
             return {
-                expenses: [action.payload, ...state.expenses.slice(0, -1)]
+                income: [action.payload, ...state.income.slice(0, -1)]
             }
 
-        case 'DELETE_EXPENSES':
+        case 'DELETE_INCOME':
             return {
-                expenses: state.expenses.filter((w) => w._id !== action.payload._id)
+                income: state.income.filter((w) => w._id !== action.payload._id)
             }
 
         default:
@@ -31,7 +31,7 @@ export const expensesReducer = (state, action) => {
 }
 
 
-export const ExpensesContextProvider = ({ children }) => {
+export const IncomeContextProvider = ({ children }) => {
 
     // useEffect(() => {
     //     const fetchExpenses = async () => {
@@ -53,18 +53,18 @@ export const ExpensesContextProvider = ({ children }) => {
 
     // }, [])
 
-    const [state, dispatch] = useReducer(expensesReducer, {
-        expenses: null
+    const [state, dispatch] = useReducer(incomeReducer, {
+        income: null
     })
 
 
     return (
 
-        <ExpensesContext.Provider value={{ ...state, dispatch }} >
+        <IncomeContext.Provider value={{ ...state, dispatch }} >
 
             {children}
 
-        </ExpensesContext.Provider >
+        </IncomeContext.Provider >
 
 
     )

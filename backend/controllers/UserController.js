@@ -3,6 +3,7 @@ import User from "../models/UserModel.js"
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
 
+
 const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '3d' })
 
@@ -30,11 +31,6 @@ const loginUser = async (req, res) => {
 
 
 
-
-
-
-
-
 const addUser = async (req, res) => {
     const { email, username, password } = req.body;
 
@@ -55,7 +51,7 @@ const addUser = async (req, res) => {
 
 
 const searchUserById = async (req, res) => {
-    const { id } = req.params
+    const { user_id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: 'DOES NOT EXIST' });
@@ -71,4 +67,26 @@ const searchUserById = async (req, res) => {
 
 }
 
-export { addUser, searchUserById, loginUser };
+const getUserMoney = async (req, res) => {
+
+    const user_id = req.user._id
+
+    console.log(user_id)
+
+    if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(404).json({ error: 'DOES NOT EXIST' });
+    }
+
+    const user = await User.findById(user_id)
+
+
+    if (!user) {
+        return res.status(404).json({ error: 'DOES NOT EXIST' });
+    } else {
+        const userMoney = user.userMoney
+        res.status(200).json(userMoney)
+    }
+
+}
+
+export { addUser, getUserMoney, loginUser };

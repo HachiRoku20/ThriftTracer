@@ -5,13 +5,58 @@ import User from "../models/UserModel.js"
 // *GET ALL EXPENSES
 
 const getExpenses = async (req, res) => {
+
+    const page = req.query.page || 0;
+    const limit = 5
+
+
     try {
-        const user_id = req.user._id
-        const expenses = await Expenses.find({ user_id }).sort({ createdAt: -1 })
+        const user_id = req.user._id.toString()
+        const skip = (page - 1) * limit
+        const count = await Expenses.estimatedDocumentCount({ user_id })
+
+        const month = parseInt(req.query.month);
+        const year = parseInt(req.query.year);
+
+
+        // const expenses = await Expenses.find({ user_id })
+        //     .limit(limit)
+        //     .skip(skip)
+        //     .sort({ createdAt: -1 })
+
+
+
+
+
+
+        const expenses = await Expenses.aggregate([
+            {
+                $match: {
+                    user_id: user_id,
+                    createdAt: {
+                        $gte: new Date(year, month - 1, 1), // Start of the month
+                        $lte: new Date(year, month, 0)     // End of the month
+                    }
+                }
+            },
+            { $sort: { createdAt: -1 } },
+            { $skip: skip },
+            { $limit: limit }
+
+        ]);
+
+        console.log(user_id)
+        console.log(new Date(year, month - 1, 1))
+        console.log(new Date(year, month, 0))
+
         res.status(200).json(expenses)
+
     }
     catch (error) {
         res.status(400).json(error)
+        console.log(user_id)
+        console.log(new Date(year, month - 1, 1))
+        console.log(new Date(year, month, 0))
     }
 }
 
@@ -39,6 +84,7 @@ const getIdExpenses = async (req, res) => {
 
 const createExpenses = async (req, res) => {
     const { title, description, amount, category } = req.body
+    console.log(amount)
 
     let emptyFields = []
 

@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
-import ExpensesComponent from "./ExpensesComponent.jsx";
-import ExpensesForm from '../components/ExpensesForm.jsx'
-import { useExpensesContext } from "../hooks/useExpensesContext.jsx";
-import { useAuthContext } from "../hooks/userAuthContext.jsx";
+import IncomeComponent from "./IncomeComponent.jsx";
+import IncomeForm from './IncomeForm.jsx'
+import { useIncomeContext } from "../hooks/useIncomeContext.jsx";
 import PaginationButtons from "./PaginationButtons.jsx";
+import { useAuthContext } from "../hooks/userAuthContext.jsx";
 import MonthlyFilterButtons from "./MonthlyFilterButtons.jsx";
 
 
-const ExpensesPage = () => {
+const IncomePage = () => {
 
     // const [expenses, setExpenses] = useState(null)
 
-    const { expenses, dispatch } = useExpensesContext()
+    const { income, dispatch } = useIncomeContext()
     const { user } = useAuthContext()
     const [page, setPage] = useState(1)
-
     const date = new Date();
 
     const [monthQuery, setMonthQuery] = useState(date.getMonth() + 1)
@@ -24,15 +23,13 @@ const ExpensesPage = () => {
 
 
 
-
-
-    // Sets INITIAL STATE for EXPENSES using CONTEXT
+    // Sets INITIAL STATE for Income using CONTEXT
 
     useEffect(() => {
-        const fetchExpenses = async () => {
+        const fetchIncome = async () => {
 
             //*Fetches Expenses Log
-            const response = await fetch(`http://localhost:5555/expenses?page=${page}&month=${monthQuery}&year=${yearQuery}`, {
+            const response = await fetch(`http://localhost:5555/income?page=${page}&month=${monthQuery}&year=${yearQuery}`, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
@@ -42,22 +39,20 @@ const ExpensesPage = () => {
 
             //*State Setter for (expenses)
             if (response.ok) {
-                dispatch({ type: 'SET_EXPENSES', payload: json })
+                dispatch({ type: 'SET_INCOME', payload: json })
 
             }
         }
 
         if (user) {
-            fetchExpenses();
+            fetchIncome();
         }
 
     }, [page, monthQuery, yearQuery])
 
 
 
-
-    console.log(expenses);
-    console.log(page)
+    console.log(income);
 
     // *Previous Page Setter
     const handlePrevPage = () => {
@@ -102,26 +97,21 @@ const ExpensesPage = () => {
     }
 
 
-
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
-
 
             <div className="flex justify-between">
                 <MonthlyFilterButtons monthQuery={monthQuery} yearQuery={yearQuery} onPreviousMonth={handlePreviousMonth} onNextMonth={handleNextMonth} />
                 <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
             </div>
-
-
             <div className="flex flex-col" >
-                {expenses && expenses.map((expense) => (
-                    <ExpensesComponent key={expense._id} expense={expense} />
+                {income && income.map((income) => (
+                    <IncomeComponent key={income._id} income={income} />
                 ))}
             </div>
 
 
-
-            <ExpensesForm />
+            <IncomeForm />
 
         </div>
 
@@ -130,4 +120,4 @@ const ExpensesPage = () => {
     )
 }
 
-export default ExpensesPage;
+export default IncomePage;
