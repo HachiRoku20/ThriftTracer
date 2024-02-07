@@ -5,9 +5,34 @@ import User from "../models/UserModel.js"
 // *GET ALL INCOME
 
 const getIncome = async (req, res) => {
+
+    const page = req.query.page || 1;
+    const limit = 5
+
     try {
-        const user_id = req.user._id
-        const income = await Income.find({ user_id }).sort({ createdAt: -1 })
+        const user_id = req.user._id.toString()
+        const skip = (page - 1) * limit
+        const count = await Income.estimatedDocumentCount({ user_id })
+
+        const month = parseInt(req.query.month);
+        const year = parseInt(req.query.year);
+
+        const income = await Income.aggregate([
+            {
+                $match: {
+                    user_id: user_id,
+                    createdAt: {
+                        $gte: new Date(year, month - 1, 1), // Start of the month
+                        $lte: new Date(year, month, 0)     // End of the month
+                    }
+                }
+            },
+            { $sort: { createdAt: -1 } },
+            { $skip: skip },
+            { $limit: limit }
+
+        ]);
+
         res.status(200).json(income)
     }
     catch (error) {
@@ -38,6 +63,7 @@ const getIdIncome = async (req, res) => {
 
 const createIncome = async (req, res) => {
     const { title, description, amount, type } = req.body
+    console.log(amount)
 
     let emptyFields = []
 
@@ -63,9 +89,10 @@ const createIncome = async (req, res) => {
             user_id, title, description, amount, type
         })
 
-
+        console.log(IncomedUser.userMoney)
         IncomedUser.userMoney += amount;
         await IncomedUser.save(); // Save the updated user
+
 
         res.status(200).json(income)
 

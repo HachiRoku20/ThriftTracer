@@ -15,7 +15,7 @@ export const expensesReducer = (state, action) => {
 
         case 'CREATE_EXPENSES':
             return {
-                expenses: [action.payload, ...state.expenses]
+                expenses: [action.payload, ...state.expenses.slice(0, -1)]
             }
 
         case 'DELETE_EXPENSES':

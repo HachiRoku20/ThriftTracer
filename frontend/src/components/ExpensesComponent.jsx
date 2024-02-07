@@ -31,14 +31,14 @@ const ExpensesComponent = ({ expense }) => {
     return (
         <div className="p-4 my-2 mx-4 flex flex-col bg-gray-800 rounded-md">
             <div className="flex space-bet justify-between">
-                <h2>USER: {expense.title}</h2>
-                <button className="rounded-xl bg-red-700 w-fit p-1 " onClick={handleClick}><MdDelete size={15} /></button>
+                <h2 className="px-1 font-bold">{expense.title}</h2>
+                <button className="rounded-xl bg-red-700 w-fit px-1 " onClick={handleClick}><MdDelete size={15} /></button>
             </div>
 
-            <p>{expense.description}</p>
-            <p className="text-red-700 font-bold">₱{expense.amount}</p>
-            <p>CATEGORY: {expense.category}</p>
-            <p>{format(new Date(expense.createdAt), 'MMM d, y | p')}</p>
+            {expense.description && <p className="bg-gray-700 rounded-md my-2 px-1 w-fit">{expense.description}</p>}
+            <p className="text-red-700 font-bold px-1">₱{expense.amount}</p>
+            <p className="px-1">CATEGORY: {expense.category}</p>
+            <p className="px-1">{format(new Date(expense.createdAt), 'MMM d, y | p')}</p>
 
         </div>
 

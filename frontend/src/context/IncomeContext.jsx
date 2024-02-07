@@ -15,7 +15,7 @@ export const incomeReducer = (state, action) => {
 
         case 'CREATE_INCOME':
             return {
-                income: [action.payload, ...state.income]
+                income: [action.payload, ...state.income.slice(0, -1)]
             }
 
         case 'DELETE_INCOME':

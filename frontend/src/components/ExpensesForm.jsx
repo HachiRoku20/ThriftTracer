@@ -104,7 +104,7 @@ const ExpensesForm = () => {
                     <input
 
                         type="number"
-                        onChange={(test) => setamount(test.target.value)}
+                        onChange={(test) => setamount(parseInt(test.target.value, 10))}
                         value={amount}
                         className={"outline-none sm:text-xl font-bold bg-gray-800 px-6 py-2 rounded-md w-full " + (emptyFields.includes('amount') ? "outline-red-700" : "")}
                     />
@@ -128,7 +128,7 @@ const ExpensesForm = () => {
                     {error && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 font-bold">{error}</div>}
                 </div>
                 <div className="flex flex-col space-bet justify-between">
-                    {confirmMessage && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 font-bold">`${confirmMessage} removed from user's account`</div>}
+                    {confirmMessage && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 font-bold">`₱{confirmMessage} removed from user's account`</div>}
                 </div>
 
             </form >

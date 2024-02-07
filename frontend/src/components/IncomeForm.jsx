@@ -24,10 +24,9 @@ const IncomeForm = () => {
 
 
 
-
-
         const income = { title, description, amount, type }
 
+        console.log(amount)
         console.log(JSON.stringify(income))
 
         const response = await fetch('http://localhost:5555/income', {
@@ -102,7 +101,7 @@ const IncomeForm = () => {
                     <input
 
                         type="number"
-                        onChange={(test) => setamount(test.target.value)}
+                        onChange={(test) => setamount(parseInt(test.target.value, 10))}
                         value={amount}
                         className={"outline-none sm:text-xl font-bold bg-gray-800 px-6 py-2 rounded-md w-full " + (emptyFields.includes('amount') ? "outline-red-700" : "")}
                     />
