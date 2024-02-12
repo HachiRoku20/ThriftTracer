@@ -22,6 +22,9 @@ const userSchema = new Schema({
     userMoney: {
         type: Number,
         required: true
+    },
+    Categories: {
+        type: [String]
     }
 
 }, { timestamps: true })

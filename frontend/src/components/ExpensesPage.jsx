@@ -106,22 +106,24 @@ const ExpensesPage = () => {
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
 
+            <h3 className="mx-auto w-fit font-bold text-orange-600 text-4xl">EXPENSES</h3>
+            <div className="flex flex-col justify-around md:flex-row md:flex-wrap">
+                <div>
+                    <div className="flex justify-between">
+                        <MonthlyFilterButtons monthQuery={monthQuery} yearQuery={yearQuery} onPreviousMonth={handlePreviousMonth} onNextMonth={handleNextMonth} />
+                        <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
+                    </div>
+                    <div className="flex flex-col md:flex-row md:flex-wrap" >
+                        {expenses && expenses.map((expense) => (
+                            <ExpensesComponent key={expense._id} expense={expense} />
+                        ))}
+                    </div>
+                </div>
 
-            <div className="flex justify-between">
-                <MonthlyFilterButtons monthQuery={monthQuery} yearQuery={yearQuery} onPreviousMonth={handlePreviousMonth} onNextMonth={handleNextMonth} />
-                <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
+
+
+                <ExpensesForm />
             </div>
-
-
-            <div className="flex flex-col" >
-                {expenses && expenses.map((expense) => (
-                    <ExpensesComponent key={expense._id} expense={expense} />
-                ))}
-            </div>
-
-
-
-            <ExpensesForm />
 
         </div>
 

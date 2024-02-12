@@ -58,9 +58,13 @@ const ExpensesForm = () => {
                 setError(null)
                 setEmptyFields([])
                 setConfirmMessage(amount)
+                setTimeout(() => {
+                    setConfirmMessage(null)
+                }, 8000);
                 console.log('expense recorded', json)
                 dispatch({ type: 'CREATE_EXPENSES', payload: json })
             }
+
 
     }
 
@@ -75,9 +79,9 @@ const ExpensesForm = () => {
 
     return (
 
-        <div className="max-w-screen-xl mx-auto px-4">
+        <div className="max-w-screen-xl px-4">
             <form className="flex flex-col text-slate-50" onSubmit={handleSubmit}>
-                <h3 className="mx-auto font-bold text-red-600 md:text-4xl">ADD EXPENSE</h3>
+
 
                 <label className="p-4"> Title </label>
                 <input
@@ -124,11 +128,11 @@ const ExpensesForm = () => {
 
 
                 <div className="flex flex-col space-bet justify-between">
-                    <button className="rounded-md bg-emerald-400 p-2 m-6 w-fit justify-self-end	self-center font-bold">ADD EXPENSE</button>
-                    {error && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 font-bold">{error}</div>}
+                    <button className="rounded-md bg-orange-600 p-2 m-6 w-fit justify-self-end	self-center font-bold">ADD EXPENSE</button>
+                    {error && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-orange-600 font-bold">{error}</div>}
                 </div>
                 <div className="flex flex-col space-bet justify-between">
-                    {confirmMessage && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 font-bold">`₱{confirmMessage} removed from user's account`</div>}
+                    {confirmMessage && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 first-line:font-bold"><b>₱{confirmMessage}</b>removed from user's account</div>}
                 </div>
 
             </form >

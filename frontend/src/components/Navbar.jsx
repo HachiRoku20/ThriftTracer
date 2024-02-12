@@ -2,6 +2,12 @@ import { Link } from "react-router-dom"
 import { FiAlignJustify } from "react-icons/fi";
 import React, { useState } from "react";
 import { useLogout } from "../hooks/useLogout";
+import { IoHome } from "react-icons/io5";
+import { GiReceiveMoney } from "react-icons/gi";
+import { GiPayMoney } from "react-icons/gi";
+import { ImExit } from "react-icons/im";
+
+
 
 
 const Navbar = () => {
@@ -22,39 +28,44 @@ const Navbar = () => {
     return (
 
 
-        <header className="flex justify-between items-center h-24 mx-auto px-4 max-w-screen-xl">
+        <header className="flex justify-evenly items-center h-24 mx-auto px-4 max-w-screen-xl">
 
             {/* NAVBAR PC */}
-
-            <div className="w-full text-3xl font-bold text-emerald-400">
-                <Link to="/">
-                    <h1>Thrift Tracer</h1>
-                </Link>
-            </div>
-
-
-
-            <ul className="flex justify-between items-center h-24 mx-auto text-slate-50 font-semibold hidden md:flex">
-                <li className="px-3.5 hover:text-emerald-400">
+            <div className="w-full flex justify-between items-center">
+                <div className=" text-3xl font-bold text-emerald-400">
                     <Link to="/">
-                        <h1>HOME</h1>
+                        <h1>Thrift Tracer</h1>
                     </Link>
-                </li>
+                </div>
 
-                <li className="px-3.5 hover:text-emerald-400">
-                    <Link to="/expenses">
-                        <h1>EXPENSES</h1>
-                    </Link>
-                </li>
 
-                <li className="px-3.5 hover:text-emerald-400">
-                    <Link to="/income">
-                        <h1>INCOME</h1>
-                    </Link>
-                </li>
 
-                <button onClick={handleLogout}>LOG OUT</button>
-            </ul>
+                <ul className="flex justify-between items-center h-24 text-slate-50 font-semibold hidden md:flex">
+                    <li className="px-3.5 mx-1 hover:text-emerald-400">
+                        <Link to="/">
+                            <IoHome size={25} />
+
+                        </Link>
+                    </li>
+
+                    <li className="px-3.5 mx-1 hover:text-red-600">
+                        <Link to="/expenses">
+                            <GiPayMoney size={25} />
+
+                        </Link>
+                    </li>
+
+                    <li className="px-3.5 mx-1 hover:text-emerald-600">
+                        <Link to="/income">
+                            <GiReceiveMoney size={25} />
+                        </Link>
+                    </li>
+
+                    <button className="px-3.5 mx-1 hover:text-red-600" onClick={handleLogout}><ImExit size={23} />
+                    </button>
+                </ul>
+
+            </div>
 
             {/* NAVBAR MOBILE ICON */}
             <div onClick={handleNavSwitch} className="block md:hidden">
