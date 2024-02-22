@@ -26,6 +26,7 @@ const ExpensesComponent = ({ expense }) => {
             dispatch({ type: 'DELETE_EXPENSES', payload: json })
         }
 
+
     }
 
     return (

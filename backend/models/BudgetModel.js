@@ -15,6 +15,10 @@ const budgetSchema = new Schema({
         type: number,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
     currentAmount: {
         type: number
     }

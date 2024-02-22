@@ -7,7 +7,7 @@ import User from "../models/UserModel.js"
 const getExpenses = async (req, res) => {
 
     const page = req.query.page || 0;
-    const limit = 5
+    const limit = 6
 
 
     try {
@@ -54,7 +54,6 @@ const getExpenses = async (req, res) => {
     }
     catch (error) {
         res.status(400).json(error)
-        console.log(user_id)
         console.log(new Date(year, month - 1, 1))
         console.log(new Date(year, month, 0))
     }

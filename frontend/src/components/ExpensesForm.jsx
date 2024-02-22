@@ -9,6 +9,8 @@ import { useAuthContext } from "../hooks/userAuthContext"
 
 const ExpensesForm = () => {
 
+    //INITIALIZATIONS
+
     const { user } = useAuthContext()
 
     const { dispatch } = useExpensesContext()
@@ -21,12 +23,19 @@ const ExpensesForm = () => {
     const [emptyFields, setEmptyFields] = useState([])
     const [confirmMessage, setConfirmMessage] = useState(null)
 
+
+    //FUNCTIONS
+
+
+    const timerFunc = (callback) => {
+        setTimeout(() => {
+            callback();
+        }, 6000);
+
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-
-
-
-
 
         const expense = { title, description, amount, category }
 
@@ -48,24 +57,29 @@ const ExpensesForm = () => {
         if (!response.ok) {
             setError(json.error)
             setEmptyFields(json.emptyFields)
+            timerFunc(() => setEmptyFields([]))
+            timerFunc(() => setError(null))
 
-        } else
-            if (response.ok) {
-                setTitle('')
-                setDesc('')
-                setamount('')
-                setcategory('')
-                setError(null)
-                setEmptyFields([])
-                setConfirmMessage(amount)
-                setTimeout(() => {
-                    setConfirmMessage(null)
-                }, 8000);
-                console.log('expense recorded', json)
-                dispatch({ type: 'CREATE_EXPENSES', payload: json })
-            }
+        }
 
+        if (response.ok) {
+            setTitle('')
+            setDesc('')
+            setamount('')
+            setcategory('')
+            setError(null)
+            setEmptyFields([])
+            setConfirmMessage(amount)
+            setTimeout(() => {
+                setConfirmMessage(null)
+            }, 8000);
+            console.log('expense recorded', json)
+            dispatch({ type: 'CREATE_EXPENSES', payload: json })
+        }
 
+        if (response.status === 401) {
+            logout();
+        }
     }
 
 
@@ -129,10 +143,10 @@ const ExpensesForm = () => {
 
                 <div className="flex flex-col space-bet justify-between">
                     <button className="rounded-md bg-orange-600 p-2 m-6 w-fit justify-self-end	self-center font-bold">ADD EXPENSE</button>
-                    {error && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-orange-600 font-bold">{error}</div>}
+                    {error && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 font-bold">{error}</div>}
                 </div>
                 <div className="flex flex-col space-bet justify-between">
-                    {confirmMessage && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-red-700 first-line:font-bold"><b>₱{confirmMessage}</b>removed from user's account</div>}
+                    {confirmMessage && <div className="p-4 my-2 mx-4 flex flex-col rounded-md bg-orange-600 first-line:font-bold"><b>-₱{confirmMessage}</b>removed from user's account</div>}
                 </div>
 
             </form >

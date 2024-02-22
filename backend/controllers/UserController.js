@@ -50,22 +50,22 @@ const addUser = async (req, res) => {
 }
 
 
-const searchUserById = async (req, res) => {
-    const { user_id } = req.params
+// const checkToken = async (req, res) => {
+//     const { user_id } = req.params
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'DOES NOT EXIST' });
-    }
+//     if (!mongoose.Types.ObjectId.isValid(id)) {
+//         return res.status(404).json({ error: 'DOES NOT EXIST' });
+//     }
 
-    const user = await User.findById(id)
+//     const user = await User.findById(id)
 
-    if (!user) {
-        return res.status(404).json({ error: 'DOES NOT EXIST' });
-    } else {
-        res.status(200).json(user)
-    }
+//     if (!user) {
+//         return res.status(404).json({ error: 'DOES NOT EXIST' });
+//     } else {
+//         res.status(200).json(user)
+//     }
 
-}
+// }
 
 const getUserMoney = async (req, res) => {
 

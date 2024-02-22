@@ -22,7 +22,15 @@ export const AuthContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('user'))
+        // const user = JSON.parse(localStorage.getItem('user'))
+
+        const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+            const [key, value] = cookie.trim().split('=');
+            acc[key] = decodeURIComponent(value);
+            return acc;
+        }, {});
+
+        const user = cookies.user ? JSON.parse(cookies.user) : null;
 
 
         if (user) {

@@ -5,9 +5,12 @@ import { useExpensesContext } from "../hooks/useExpensesContext.jsx";
 import { useAuthContext } from "../hooks/userAuthContext.jsx";
 import PaginationButtons from "./PaginationButtons.jsx";
 import MonthlyFilterButtons from "./MonthlyFilterButtons.jsx";
-
+import { useLogout } from "../hooks/useLogout.jsx";
+import { FaArrowUp } from "react-icons/fa";
 
 const ExpensesPage = () => {
+
+    const { logout } = useLogout();
 
     // const [expenses, setExpenses] = useState(null)
 
@@ -45,6 +48,10 @@ const ExpensesPage = () => {
                 dispatch({ type: 'SET_EXPENSES', payload: json })
 
             }
+
+            if (response.status === 401) {
+                logout();
+            }
         }
 
         if (user) {
@@ -58,6 +65,11 @@ const ExpensesPage = () => {
 
     console.log(expenses);
     console.log(page)
+
+    // *Scroll To Top Function
+    const scrollToTop = () => {
+        window.scrollTo(0, 0);
+    };
 
     // *Previous Page Setter
     const handlePrevPage = () => {
@@ -107,22 +119,25 @@ const ExpensesPage = () => {
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
 
             <h3 className="mx-auto w-fit font-bold text-orange-600 text-4xl">EXPENSES</h3>
+
+            <ExpensesForm />
             <div className="flex flex-col justify-around md:flex-row md:flex-wrap">
-                <div>
-                    <div className="flex justify-between">
-                        <MonthlyFilterButtons monthQuery={monthQuery} yearQuery={yearQuery} onPreviousMonth={handlePreviousMonth} onNextMonth={handleNextMonth} />
-                        <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
-                    </div>
-                    <div className="flex flex-col md:flex-row md:flex-wrap" >
-                        {expenses && expenses.map((expense) => (
-                            <ExpensesComponent key={expense._id} expense={expense} />
-                        ))}
-                    </div>
+                <div className="flex w-full justify-between">
+                    <MonthlyFilterButtons monthQuery={monthQuery} yearQuery={yearQuery} onPreviousMonth={handlePreviousMonth} onNextMonth={handleNextMonth} />
+                    <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
                 </div>
+                <div className="flex flex-col w-full md:flex-row md:flex-wrap" >
+                    {expenses && expenses.map((expense) => (
+                        <ExpensesComponent key={expense._id} expense={expense} />
+                    ))}
+                </div>
+                <div className="flex justify-center p-2"><button className="'shadow-black  bg-gray-800 shadow-md px-2 py-1 rounded-full mx-2 active:bg-gray-900" onClick={scrollToTop}><FaArrowUp />
+                </button></div>
 
 
 
-                <ExpensesForm />
+
+
             </div>
 
         </div>
