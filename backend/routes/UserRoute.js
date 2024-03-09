@@ -3,14 +3,12 @@ import { addUser, getUserMoney, loginUser } from "../controllers/UserController.
 import { requireAuth } from '../middleware/requireAuth.js'
 
 
+
 const router = express.Router();
 
 
+var app = express()
 
-
-
-
-router.post('/login', loginUser);
 
 
 // *Create User 

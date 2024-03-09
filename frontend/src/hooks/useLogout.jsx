@@ -12,7 +12,9 @@ export const useLogout = () => {
 
     const logout = () => {
 
-        localStorage.removeItem('user')
+        // localStorage.removeItem('user')
+        document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; HttpOnly;';
+
 
         dispatch({ type: 'LOGOUT' })
         expensesDispatch({ type: 'SET_EXPENSES', payload: null })

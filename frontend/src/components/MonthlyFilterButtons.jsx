@@ -15,10 +15,10 @@ const MonthlyFilterButtons = ({ monthQuery, yearQuery, onPreviousMonth, onNextMo
 
     return (
 
-        <div className="flex flex-row justify-end px-4 py-2 rounded-full">
-            <button className='shadow-black bg-gray-800 shadow-md px-2 py-1 rounded-l-full mx-2 hover:bg-gray-900' onClick={onPreviousMonth}><FaLongArrowAltLeft /></button>
-            <h2 className='w-32'>{getMonthName(monthQuery) + " " + yearQuery}</h2>
-            <button className='shadow-black  bg-gray-800 shadow-md px-2 py-1 rounded-r-full mx-2 hover:bg-gray-900' onClick={onNextMonth}><FaLongArrowAltRight /> </button>
+        <div className="flex flex-row justify-end px-2 py-2 rounded-full text-sm md:text-base md:px-4">
+            <button className='shadow-black bg-gray-800 shadow-md px-2 py-1 rounded-l-full mx-2 active:bg-gray-900' onClick={onPreviousMonth}><FaLongArrowAltLeft /></button>
+            <h2 className='md:w-32 w-28'>{getMonthName(monthQuery) + " " + yearQuery}</h2>
+            <button className='shadow-black  bg-gray-800 shadow-md px-2 py-1 rounded-r-full mx-2 active:bg-gray-900' onClick={onNextMonth}><FaLongArrowAltRight /> </button>
         </div >
     )
 }

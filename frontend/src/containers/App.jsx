@@ -25,7 +25,7 @@ function App() {
         <div>
 
 
-          <Navbar />
+          {user && <Navbar />}
 
 
 
