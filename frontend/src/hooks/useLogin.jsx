@@ -31,7 +31,7 @@ export const useLogin = () => {
 
         if (response.ok) {
             // localStorage.setItem('user', JSON.stringify(json))
-            document.cookie = `user=${JSON.stringify(json)}; path=/`;
+            document.cookie = `user=${JSON.stringify(json)}; path=/; secure; HttpOnly; `;
 
             console.log(json)
             dispatch({ type: 'LOGIN', payload: json })
