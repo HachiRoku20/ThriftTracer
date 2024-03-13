@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { useAuthContext } from "./userAuthContext";
+import { useDispatch, useSelector } from 'react-redux'
+import { LOGIN } from '../store/features/auth/authSlice'
+
+
 
 export const useLogin = () => {
 
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
-    const { dispatch } = useAuthContext()
+    const dispatch = useDispatch()
 
 
     const login = async (email, password) => {
@@ -30,11 +33,18 @@ export const useLogin = () => {
         }
 
         if (response.ok) {
-            // localStorage.setItem('user', JSON.stringify(json))
-            document.cookie = `user=${JSON.stringify(json)}; path=/; secure; HttpOnly; `;
+            localStorage.setItem('user', JSON.stringify(json))
+            // document.cookie = `user=${JSON.stringify(json)}; path=/; secure; HttpOnly; `;
 
             console.log(json)
-            dispatch({ type: 'LOGIN', payload: json })
+            try {
+                dispatch(LOGIN(json))
+            } catch (error) {
+                console.log("IT DIDNT WORK")
+            }
+
+
+
         }
 
 

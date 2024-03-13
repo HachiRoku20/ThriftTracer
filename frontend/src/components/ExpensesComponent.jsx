@@ -1,30 +1,17 @@
-import { useExpensesContext } from "../hooks/useExpensesContext";
 import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
-import { useAuthContext } from "../hooks/userAuthContext";
-
+import { useDeleteExpenseMutation } from "../store/store";
 
 const ExpensesComponent = ({ expense }) => {
 
-    const { dispatch } = useExpensesContext()
-    const { user } = useAuthContext()
+    const [deleteExpense, results] = useDeleteExpenseMutation()
+
+    console.log("EXPENSE COMPONENTS BEING RENDERED")
 
 
     const handleClick = async () => {
 
-        const response = await fetch('http://localhost:5555/expenses/' + expense._id,
-            {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${user.token}`
-                }
-            })
-
-        const json = await response.json();
-
-        if (response.ok) {
-            dispatch({ type: 'DELETE_EXPENSES', payload: json })
-        }
+        deleteExpense(expense)
 
 
     }

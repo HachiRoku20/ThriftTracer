@@ -18,6 +18,12 @@ const getExpenses = async (req, res) => {
         const month = parseInt(req.query.month);
         const year = parseInt(req.query.year);
 
+        console.log(req.query.page)
+        console.log(req.query.month)
+        console.log(req.query.year)
+        // console.log(new Date(year, month - 1, 1))
+        // console.log(new Date(year, month, 0))
+
 
         // const expenses = await Expenses.find({ user_id })
         //     .limit(limit)
@@ -46,16 +52,16 @@ const getExpenses = async (req, res) => {
         ]);
 
         console.log(user_id)
-        console.log(new Date(year, month - 1, 1))
-        console.log(new Date(year, month, 0))
+        // console.log(new Date(year, month - 1, 1))
+        // console.log(new Date(year, month, 0))
 
         res.status(200).json(expenses)
 
     }
     catch (error) {
         res.status(400).json(error)
-        console.log(new Date(year, month - 1, 1))
-        console.log(new Date(year, month, 0))
+        // console.log(new Date(year, month - 1, 1))
+        // console.log(new Date(year, month, 0))
     }
 }
 

@@ -1,13 +1,11 @@
 import { useState } from "react"
 import { useIncomeContext } from "../hooks/useIncomeContext";
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import { useAuthContext } from "../hooks/userAuthContext"
 
 
 
 const IncomeForm = () => {
 
-    const { user } = useAuthContext()
 
     const { dispatch } = useIncomeContext()
 

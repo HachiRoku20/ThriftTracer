@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import IncomeComponent from "./IncomeComponent.jsx";
 import IncomeForm from './IncomeForm.jsx'
 import { useIncomeContext } from "../hooks/useIncomeContext.jsx";
-import PaginationButtons from "./PaginationButtons.jsx";
-import { useAuthContext } from "../hooks/userAuthContext.jsx";
-import MonthlyFilterButtons from "./MonthlyFilterButtons.jsx";
+import PaginationButtons from "./utils/PaginationButtons.jsx";
+import MonthlyFilterButtons from "./utils/MonthlyFilterButtons.jsx";
 
 
 const IncomePage = () => {
@@ -12,7 +11,6 @@ const IncomePage = () => {
     // const [expenses, setExpenses] = useState(null)
 
     const { income, dispatch } = useIncomeContext()
-    const { user } = useAuthContext()
     const [page, setPage] = useState(1)
     const date = new Date();
 

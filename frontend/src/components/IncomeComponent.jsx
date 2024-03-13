@@ -1,13 +1,11 @@
 import { useIncomeContext } from "../hooks/useIncomeContext";
 import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
-import { useAuthContext } from "../hooks/userAuthContext";
 
 
 const IncomeComponent = ({ income }) => {
 
     const { dispatch } = useIncomeContext()
-    const { user } = useAuthContext()
 
 
     const handleClick = async () => {

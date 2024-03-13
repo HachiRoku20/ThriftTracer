@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import ExpensesComponent from "./ExpensesComponent.jsx";
 import ExpensesForm from '../components/ExpensesForm.jsx'
-import { useExpensesContext } from "../hooks/useExpensesContext.jsx";
 import ExpensesPage from "./ExpensesPage.jsx";
-import { useAuthContext } from "../hooks/userAuthContext.jsx";
-
+import { useGetExpensesQuery } from "../store/store.jsx";
 
 const Home = () => {
 
-    const { user } = useAuthContext()
+
     const [userMoney, setUserMoney] = useState()
 
     useEffect(() => {
@@ -30,6 +28,9 @@ const Home = () => {
 
     }, [])
 
+    // const { data, error, isloading } = useGetExpensesQuery();
+
+    // console.log(data, error, isloading);
 
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">

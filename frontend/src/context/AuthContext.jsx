@@ -21,23 +21,23 @@ export const AuthContextProvider = ({ children }) => {
     })
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        // const user = JSON.parse(localStorage.getItem('user'))
+    //     // const user = JSON.parse(localStorage.getItem('user'))
 
-        const cookies = document.cookie.split(';').reduce((acc, cookie) => {
-            const [key, value] = cookie.trim().split('=');
-            acc[key] = decodeURIComponent(value);
-            return acc;
-        }, {});
+    //     const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+    //         const [key, value] = cookie.trim().split('=');
+    //         acc[key] = decodeURIComponent(value);
+    //         return acc;
+    //     }, {});
 
-        const user = cookies.user ? JSON.parse(cookies.user) : null;
+    //     const user = cookies.user ? JSON.parse(cookies.user) : null;
 
 
-        if (user) {
-            dispatch({ type: 'LOGIN', payload: user })
-        }
-    }, [])
+    //     if (user) {
+    //         dispatch({ type: 'LOGIN', payload: user })
+    //     }
+    // }, [])
 
 
 

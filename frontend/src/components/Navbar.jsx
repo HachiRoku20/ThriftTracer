@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { FiAlignJustify } from "react-icons/fi";
 import React, { useState } from "react";
 import { useLogout } from "../hooks/useLogout";
@@ -28,19 +28,54 @@ const Navbar = () => {
     return (
 
 
-        <header className="flex justify-evenly items-center h-24 mx-auto px-4 max-w-screen-xl">
+        <>
 
-            {/* NAVBAR PC */}
-            <div className="w-full flex justify-between items-center">
-                <div className=" text-3xl font-bold text-emerald-400">
-                    <Link to="/">
+            <div className=" hidden md:flex h-screen flex-col justify-between border-e-2 border-gray-800 rounded-sm shadow-black shadow-sm">
+                <div className="px-4 py-6 ">
+                    <span className=" text-2xl font-bold text-emerald-400 pt-20 text-center tracking-tight">
+
                         <h1>Thrift Tracer</h1>
-                    </Link>
+
+                    </span>
+
+                    <ul className="mt-6 space-y-1 text-slate-200">
+                        <li>
+                            <NavLink to="/"
+                                className="flex rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-700 "
+                            >
+                                <IoHome className="mr-2 self-center" size={15} /> <span>Home</span>
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/expenses"
+                                className="flex rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-700 "
+                            >
+                                <GiPayMoney className="mr-2 self-center" size={15} /> <span>Expenses</span>
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to="/income"
+                                className="block rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-700"
+                            >
+                                Income
+                            </NavLink>
+                        </li>
+
+                    </ul>
+
                 </div>
 
+                <div className="px-4 py-6 ">
+                    <button className="flex flex-row justify-center rounded-lg px-4 py-2 text-sm font-medium text-slate-200 hover:bg-red-600" onClick={handleLogout}>Log Out<ImExit className="ml-2 self-center" size={15} /></button>
+                </div>
+            </div>
 
 
-                <ul className="flex justify-between items-center h-24 text-slate-50 font-semibold hidden md:flex">
+            {/* NAVBAR MOBILE */}
+            <div>
+                <ul className="flex justify-between items-center h-24 text-slate-50 font-semibold md:hidden">
                     <li className="px-3.5 mx-1 hover:text-emerald-400">
                         <Link to="/">
                             <IoHome size={25} />
@@ -67,13 +102,14 @@ const Navbar = () => {
 
             </div>
 
+
             {/* NAVBAR MOBILE ICON */}
-            <div onClick={handleNavSwitch} className="block md:hidden">
+            {/* <div onClick={handleNavSwitch} className="block md:hidden">
                 <FiAlignJustify size={25} color="mediumspringgreen" />
-            </div>
+            </div> */}
 
             {/* NAVBAR MOBILE */}
-            <div className={navSwitch ? 'fixed left-0 top-0 w-[50%] h-full border-r border-r-gray-700 bg-[#060711] ease-in-out duration-500' : 'fixed left-[-100%]'} >
+            {/* <div className={navSwitch ? 'fixed left-0 top-0 w-[50%] h-full border-r border-r-gray-700 bg-[#060711] ease-in-out duration-500' : 'fixed left-[-100%]'} >
 
 
                 <h1 className="w-full text-3xl font-bold text-emerald-400 p-4">Thrift Tracer</h1>
@@ -91,10 +127,9 @@ const Navbar = () => {
                         </Link>
                     </li>
                 </ul>
-            </div>
+            </div> */}
 
-        </header>
-
+        </>
     )
 }
 
