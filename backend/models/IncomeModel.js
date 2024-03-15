@@ -18,7 +18,7 @@ const incomeSchema = new Schema({
         type: Number,
         required: true
     },
-    type: {
+    account: {
         type: String,
         required: true
     }

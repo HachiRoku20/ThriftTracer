@@ -15,36 +15,39 @@ export const useLogin = () => {
         setIsLoading(true)
         setError(null)
 
-        console.log(JSON.stringify({ email, password }))
+        try {
+            console.log(JSON.stringify({ email, password }))
 
-        const response = await fetch('http://localhost:5555/user/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+            const response = await fetch('http://localhost:5555/user/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
 
-        const json = await response.json();
+            const json = await response.json();
 
-        if (!response.ok) {
-            setIsLoading(false)
-            setError(json)
-        }
-
-        if (response.ok) {
-            localStorage.setItem('user', JSON.stringify(json))
-            // document.cookie = `user=${JSON.stringify(json)}; path=/; secure; HttpOnly; `;
-
-            console.log(json)
-            try {
-                dispatch(LOGIN(json))
-            } catch (error) {
-                console.log("IT DIDNT WORK")
+            if (!response.ok) {
+                setIsLoading(false)
+                setError(json)
             }
 
+            if (response.ok) {
+                localStorage.setItem('user', JSON.stringify(json))
+                // document.cookie = `user=${JSON.stringify(json)}; path=/; secure; HttpOnly; `;
 
-
+                console.log(json)
+                try {
+                    dispatch(LOGIN(json))
+                } catch (error) {
+                    console.log("IT DIDNT WORK")
+                }
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError("Network error occurred. Please try again later.");
+            console.error("Network error:", error);
         }
 
 

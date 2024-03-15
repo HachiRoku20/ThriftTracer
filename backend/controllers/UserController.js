@@ -67,7 +67,7 @@ const addUser = async (req, res) => {
 
 // }
 
-const getUserMoney = async (req, res) => {
+const getUserData = async (req, res) => {
 
     const user_id = req.user._id
 
@@ -83,10 +83,10 @@ const getUserMoney = async (req, res) => {
     if (!user) {
         return res.status(404).json({ error: 'DOES NOT EXIST' });
     } else {
-        const userMoney = user.userMoney
-        res.status(200).json(userMoney)
+        const userData = user.userData
+        res.status(200).json(userData)
     }
 
 }
 
-export { addUser, getUserMoney, loginUser };
+export { addUser, getUserData, loginUser };

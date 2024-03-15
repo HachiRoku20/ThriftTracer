@@ -7,17 +7,14 @@ import { useLogout } from "../hooks/useLogout.jsx";
 import { FaArrowUp } from "react-icons/fa";
 
 import { useGetExpensesQuery } from "../store/store.jsx";
+import { useDeleteExpenseMutation } from "../store/store.jsx";
 
 
 
 const ExpensesPage = () => {
 
-
-
-
-
-    const { logout } = useLogout();
-
+    // *DELETE Query
+    const [deleteExpense, results] = useDeleteExpenseMutation()
 
     const [page, setPage] = useState(1)
 
@@ -25,11 +22,13 @@ const ExpensesPage = () => {
 
     const [monthQuery, setMonthQuery] = useState(date.getMonth() + 1)
     const [yearQuery, setYearQuery] = useState(date.getFullYear())
-    console.log(monthQuery);
-    console.log(yearQuery);
 
+
+    // *GET Query
     const { data, error, isloading } = useGetExpensesQuery({ page, monthQuery, yearQuery });
     console.log(data, error, isloading);
+
+
 
 
 
@@ -61,8 +60,6 @@ const ExpensesPage = () => {
         } else {
             setMonthQuery(prevMonth => prevMonth - 1)
         }
-
-
     }
 
 
@@ -74,9 +71,6 @@ const ExpensesPage = () => {
         } else {
             setMonthQuery(prevMonth => prevMonth + 1)
         }
-
-
-
     }
 
 
@@ -93,12 +87,12 @@ const ExpensesPage = () => {
                     <MonthlyFilterButtons monthQuery={monthQuery} yearQuery={yearQuery} onPreviousMonth={handlePreviousMonth} onNextMonth={handleNextMonth} />
                     <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
                 </div>
-                <div className="flex flex-col w-full md:flex-row md:flex-wrap" >
+                <div className="w-full md:grid grid-cols-2 grid-flow-row " >
                     {data && data.map((expense) => (
-                        <ExpensesComponent key={expense._id} expense={expense} />
+                        <ExpensesComponent key={expense._id} transaction={expense} onClickHandler={deleteExpense} />
                     ))}
                 </div>
-                <div className="flex justify-center p-2"><button className="'shadow-black  bg-gray-800 shadow-md px-2 py-1 rounded-full mx-2 active:bg-gray-900" onClick={scrollToTop}><FaArrowUp />
+                <div className="flex justify-center p-2 "><button className="'bg-gray-800  px-2 py-1 rounded-full mx-2 shadow-sm shadow-black bg-gray-800 active:bg-gray-900 md:hidden" onClick={scrollToTop}><FaArrowUp />
                 </button></div>
 
             </div>

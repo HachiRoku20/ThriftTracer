@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import IncomeComponent from "./IncomeComponent.jsx";
 import IncomeForm from './IncomeForm.jsx'
-import { useIncomeContext } from "../hooks/useIncomeContext.jsx";
 import PaginationButtons from "./utils/PaginationButtons.jsx";
 import MonthlyFilterButtons from "./utils/MonthlyFilterButtons.jsx";
+import { useGetIncomeQuery, useDeleteExpenseMutation } from "../store/store.jsx";
+import ExpensesComponent from "./ExpensesComponent.jsx";
+import { FaArrowUp } from "react-icons/fa";
 
 
 const IncomePage = () => {
 
-    // const [expenses, setExpenses] = useState(null)
+    // *DELETE Query
+    const [deleteIncome, results] = useDeleteExpenseMutation()
 
-    const { income, dispatch } = useIncomeContext()
     const [page, setPage] = useState(1)
     const date = new Date();
 
@@ -18,39 +19,19 @@ const IncomePage = () => {
     const [yearQuery, setYearQuery] = useState(date.getFullYear())
 
 
+    // *GET Query
+    const { data, isLoading, error } = useGetIncomeQuery({ page, monthQuery, yearQuery })
 
 
 
-    // Sets INITIAL STATE for Income using CONTEXT
-
-    useEffect(() => {
-        const fetchIncome = async () => {
-
-            //*Fetches Expenses Log
-            const response = await fetch(`http://localhost:5555/income?page=${page}&month=${monthQuery}&year=${yearQuery}`, {
-                headers: {
-                    'Authorization': `Bearer ${user.token}`
-                }
-            });
-            //*Converts to JSON Format
-            const json = await response.json();
-
-            //*State Setter for (expenses)
-            if (response.ok) {
-                dispatch({ type: 'SET_INCOME', payload: json })
-
-            }
-        }
-
-        if (user) {
-            fetchIncome();
-        }
-
-    }, [page, monthQuery, yearQuery])
 
 
 
-    console.log(income);
+    // *Scroll To Top Function
+    const scrollToTop = () => {
+        window.scrollTo(0, 0);
+    };
+
 
     // *Previous Page Setter
     const handlePrevPage = () => {
@@ -98,18 +79,24 @@ const IncomePage = () => {
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
 
-            <div className="flex justify-between">
-                <MonthlyFilterButtons monthQuery={monthQuery} yearQuery={yearQuery} onPreviousMonth={handlePreviousMonth} onNextMonth={handleNextMonth} />
-                <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
-            </div>
-            <div className="flex flex-col" >
-                {income && income.map((income) => (
-                    <IncomeComponent key={income._id} income={income} />
-                ))}
-            </div>
-
+            <h3 className="mx-auto w-fit font-bold text-orange-600 text-4xl">EXPENSES</h3>
 
             <IncomeForm />
+
+            <div className="flex flex-col justify-around md:flex-row md:flex-wrap">
+                <div className="flex w-full justify-between">
+                    <MonthlyFilterButtons monthQuery={monthQuery} yearQuery={yearQuery} onPreviousMonth={handlePreviousMonth} onNextMonth={handleNextMonth} />
+                    <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
+                </div>
+                <div className="w-full md:grid grid-cols-2 grid-flow-row " >
+                    {data && data.map((income) => (
+                        <ExpensesComponent key={income._id} transaction={income} onClickHandler={deleteIncome} />
+                    ))}
+                </div>
+                <div className="flex justify-center p-2 "><button className="'bg-gray-800  px-2 py-1 rounded-full mx-2 shadow-sm shadow-black bg-gray-800 active:bg-gray-900 md:hidden" onClick={scrollToTop}><FaArrowUp />
+                </button></div>
+
+            </div>
 
         </div>
 

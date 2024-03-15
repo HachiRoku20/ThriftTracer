@@ -41,7 +41,7 @@ const Navbar = () => {
                     <ul className="mt-6 space-y-1 text-slate-200">
                         <li>
                             <NavLink to="/"
-                                className="flex rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-700 "
+                                className="flex rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-800 aria-[current=page]:shadow-md aria-[current=page]:shadow-black"
                             >
                                 <IoHome className="mr-2 self-center" size={15} /> <span>Home</span>
                             </NavLink>
@@ -49,7 +49,7 @@ const Navbar = () => {
 
                         <li>
                             <NavLink to="/expenses"
-                                className="flex rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-700 "
+                                className="flex rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-800 aria-[current=page]:shadow-md aria-[current=page]:shadow-black"
                             >
                                 <GiPayMoney className="mr-2 self-center" size={15} /> <span>Expenses</span>
                             </NavLink>
@@ -57,9 +57,9 @@ const Navbar = () => {
 
                         <li>
                             <NavLink to="/income"
-                                className="block rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-700"
+                                className="flex rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-700 aria-[current=page]:bg-gray-800 aria-[current=page]:shadow-md aria-[current=page]:shadow-black"
                             >
-                                Income
+                                <GiReceiveMoney className="mr-2 self-center" size={15} /> <span>Income</span>
                             </NavLink>
                         </li>
 
@@ -68,7 +68,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="px-4 py-6 ">
-                    <button className="flex flex-row justify-center rounded-lg px-4 py-2 text-sm font-medium text-slate-200 hover:bg-red-600" onClick={handleLogout}>Log Out<ImExit className="ml-2 self-center" size={15} /></button>
+                    <button className="flex flex-row justify-center rounded-lg px-4 py-2 text-sm font-medium text-slate-200 hover:bg-red-600 hover:shadow-md hover:shadow-black" onClick={handleLogout}>Log Out<ImExit className="ml-2 self-center" size={15} /></button>
                 </div>
             </div>
 

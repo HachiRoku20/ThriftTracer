@@ -62,7 +62,7 @@ const getIdIncome = async (req, res) => {
 // *CREATE NEW INCOME
 
 const createIncome = async (req, res) => {
-    const { title, description, amount, type } = req.body
+    const { title, description, amount, account } = req.body
     console.log(amount)
 
     let emptyFields = []
@@ -73,12 +73,14 @@ const createIncome = async (req, res) => {
     if (!amount) {
         emptyFields.push('amount')
     }
-    if (!type) {
-        emptyFields.push('type')
+    if (!account) {
+        emptyFields.push('account')
     }
     if (emptyFields.length > 0) {
         return res.status(400).json({ error: 'Please Fill in all the fields', emptyFields })
     }
+
+
 
     try {
 
@@ -86,11 +88,15 @@ const createIncome = async (req, res) => {
         const IncomedUser = await User.findById(user_id);
 
         const income = await Income.create({
-            user_id, title, description, amount, type
+            user_id, title, description, amount, account
         })
 
+        const accountIndex = IncomedUser.userData.accounts.findIndex(obj => obj.title === account);
+
+
         console.log(IncomedUser.userMoney)
-        IncomedUser.userMoney += amount;
+        IncomedUser.userData.availableBalance += amount;
+        IncomedUser.userData.accounts[accountIndex].amount += amount;
         await IncomedUser.save(); // Save the updated user
 
 

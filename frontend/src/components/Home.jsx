@@ -1,45 +1,27 @@
-import { useEffect, useState } from "react";
-import ExpensesComponent from "./ExpensesComponent.jsx";
-import ExpensesForm from '../components/ExpensesForm.jsx'
-import ExpensesPage from "./ExpensesPage.jsx";
-import { useGetExpensesQuery } from "../store/store.jsx";
+import { useGetUserDataQuery } from "../store/store.jsx";
 
 const Home = () => {
 
+    const { data } = useGetUserDataQuery();
+    console.log(data)
 
-    const [userMoney, setUserMoney] = useState()
-
-    useEffect(() => {
-        const fetchUserMoney = async () => {
-
-            const response = await fetch(`http://localhost:5555/user/`, {
-                headers: {
-                    'Authorization': `Bearer ${user.token}`
-                }
-            });
-
-            const json = await response.json()
-            setUserMoney(json)
-        }
-
-        fetchUserMoney()
-        console.log("FETCH RUN")
-
-
-    }, [])
-
-    // const { data, error, isloading } = useGetExpensesQuery();
-
-    // console.log(data, error, isloading);
 
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
 
-            <h1 className="text-4xl text-emerald-400 font-bold mx-auto w-fit">HOME</h1>
-            <h1 className="text-4xl text-emerald-400 font-bold mx-auto w-fit">Total Money: ₱{userMoney}</h1>
+            <div className="bg-gray-800 mx-4 rounded-md py-24 sm:py-32">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 font-bold">
+                    <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
 
-
-
+                        <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                            <dt className="text-base leading-7">Available Balance</dt>
+                            <dd className="order-first text-3xl font-semibold tracking-tight sm:text-5xl">
+                                ₱{data?.availableBalance}
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
 
         </div>
 

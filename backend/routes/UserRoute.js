@@ -1,5 +1,5 @@
 import express, { response } from "express"
-import { addUser, getUserMoney, loginUser } from "../controllers/UserController.js";
+import { addUser, getUserData, loginUser } from "../controllers/UserController.js";
 import { requireAuth } from '../middleware/requireAuth.js'
 
 
@@ -17,7 +17,7 @@ router.post('/login', loginUser);
 
 router.use(requireAuth);
 
-router.get('/', getUserMoney)
+router.get('/', getUserData)
 
 
 

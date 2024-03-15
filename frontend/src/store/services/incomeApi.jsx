@@ -1,17 +1,16 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { mainApi } from './mainApi';
 
 
 
 
 
-export const expensesApi = mainApi.injectEndpoints({
+export const incomeApi = mainApi.injectEndpoints({
     endpoints: (builder) => ({
-        getExpenses: builder.query({
-            providesTags: ['ExpensesTag'],
+        getIncome: builder.query({
+            providesTags: ['IncomeTag'],
             query: (args) => {
                 return {
-                    url: '/expenses',
+                    url: '/income',
                     params: {
                         page: args.page,
                         month: args.monthQuery,
@@ -23,17 +22,16 @@ export const expensesApi = mainApi.injectEndpoints({
             },
         }),
 
-        addExpense: builder.mutation({
-            invalidatesTags: (result, error) => error ? [] : ['ExpensesTag', 'userDataTag'],
+        addIncome: builder.mutation({
+            invalidatesTags: (result, error) => error ? [] : ['IncomeTag', 'userDataTag'],
             query: (args) => {
                 return {
-                    url: '/expenses',
+                    url: '/income',
                     method: 'POST',
                     body: {
                         title: args.title,
                         description: args.description,
                         amount: args.amount,
-                        category: args.category,
                         account: args.account
                     }
 
@@ -41,14 +39,12 @@ export const expensesApi = mainApi.injectEndpoints({
             },
         }),
 
-        deleteExpense: builder.mutation({
-            invalidatesTags: (result, error) => error ? [] : ['ExpensesTag', 'userDataTag'],
+        deleteIncome: builder.mutation({
+            invalidatesTags: (result, error) => error ? [] : ['IncomeTag', 'userDataTag'],
             query: (args) => {
                 return {
-                    url: `/expenses/${args._id}`,
+                    url: `/income/${args._id}`,
                     method: 'DELETE'
-
-
                 }
             },
         })
@@ -57,5 +53,4 @@ export const expensesApi = mainApi.injectEndpoints({
     }),
 })
 
-export const { useGetExpensesQuery, useAddExpenseMutation, useDeleteExpenseMutation } = expensesApi;
-
+export const { useGetIncomeQuery, useAddIncomeMutation, useDeleteIncomeMutation } = incomeApi;
