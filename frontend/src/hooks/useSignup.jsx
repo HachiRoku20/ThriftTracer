@@ -1,39 +1,45 @@
 import { useState } from "react";
-import { useAuthContext } from "./userAuthContext";
+import { LOGIN } from "../store/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 export const useSignup = () => {
 
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
-    const { dispatch } = useAuthContext()
+    const dispatch = useDispatch()
 
 
     const signup = async (email, username, password) => {
         setIsLoading(true)
         setError(null)
 
-        console.log(JSON.stringify({ email, username, password }))
+        try {
+            const response = await fetch('http://localhost:5555/user/signup', {
+                method: 'POST',
+                body: JSON.stringify({ email, username, password }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
 
-        const response = await fetch('http://localhost:5555/user/signup', {
-            method: 'POST',
-            body: JSON.stringify({ email, username, password }),
-            headers: {
-                'Content-Type': 'application/json'
+            const json = await response.json();
+
+            if (!response.ok) {
+                setIsLoading(false)
+                setError(json)
             }
-        })
 
-        const json = await response.json();
+            if (response.ok) {
+                localStorage.setItem('user', JSON.stringify(json))
 
-        if (!response.ok) {
-            setIsLoading(false)
-            setError(json)
-        }
+                console.log(json)
+                dispatch(LOGIN(json))
+            }
 
-        if (response.ok) {
-            localStorage.setItem('user', JSON.stringify(json))
-
-            console.log(json)
-            dispatch({ type: 'LOGIN', payload: json })
+        } catch (error) {
+            setIsLoading(false);
+            setError("Network error occurred. Please try again later.");
+            console.error("Network error:", error);
         }
 
 

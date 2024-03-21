@@ -1,47 +1,78 @@
-import { useEffect, useState } from "react";
-import ExpensesComponent from "./ExpensesComponent.jsx";
-import ExpensesForm from '../components/ExpensesForm.jsx'
-import { useExpensesContext } from "../hooks/useExpensesContext.jsx";
-import ExpensesPage from "./ExpensesPage.jsx";
-import { useAuthContext } from "../hooks/userAuthContext.jsx";
+import { useGetUserDataQuery } from "../store/store.jsx";
+import AccountCard from "./utils/AccountCard.jsx";
+import AccountForm from "./Modals/AccountForm.jsx";
+import { useState, useEffect } from "react";
 
 
 const Home = () => {
 
-    const { user } = useAuthContext()
-    const [userMoney, setUserMoney] = useState()
+    const { data } = useGetUserDataQuery();
+    const [openModal, setOpenModal] = useState(false);
+
+    let formatter = Intl.NumberFormat('en', { notation: 'compact' });
+
+    const modalHandler = () => {
+        setOpenModal(prevState => !prevState)
+    }
 
     useEffect(() => {
-        const fetchUserMoney = async () => {
+        console.log(openModal)
 
-            const response = await fetch(`http://localhost:5555/user/`, {
-                headers: {
-                    'Authorization': `Bearer ${user.token}`
-                }
-            });
+    }, [openModal])
 
-            const json = await response.json()
-            setUserMoney(json)
-        }
-
-        fetchUserMoney()
-        console.log("FETCH RUN")
-
-
-    }, [])
 
 
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
 
-            <h1 className="text-4xl text-emerald-400 font-bold mx-auto w-fit">HOME</h1>
-            <h1 className="text-4xl text-emerald-400 font-bold mx-auto w-fit">Total Money: ₱{userMoney}</h1>
+            <div className="bg-gray-800 mx-4 rounded-md py-24 sm:py-32">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 font-bold">
+                    <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
 
+                        <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                            <dt className="text-base leading-7">Available Balance</dt>
+                            <dd className="order-first text-3xl font-semibold tracking-tight sm:text-5xl">
+                                ₱{formatter.format(data?.availableBalance)}
+                            </dd>
+                        </div>
+
+
+                    </dl>
+                </div>
+            </div>
+
+            <div className="bg-gray-800 mx-4 rounded-md py-6 sm:py-12 mt-2">
+                <h2 className="p-4 font-bold text-lg">ACCOUNTS: </h2>
+
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 font-bold">
+                    <dl className="flex flex-row overflow-x-auto gap-4">
+
+
+                        {data && data?.accounts?.map((accounts) => (
+                            <AccountCard key={accounts?._id} accountTitle={accounts?.title} accountAmount={accounts?.amount} />
+                        ))}
+
+                        <button onClick={modalHandler} className="mx-auto flex min-w-[45%] md:min-w-[30%] flex-col gap-y-4 rounded-md border-2 border-gray-700 p-4 items-center">
+
+                            <dt className="text-base leading-7">Add Account</dt>
+                            <dd className="order-first text-3xl font-semibold tracking-tight sm:text-5xl">
+                                +
+                            </dd>
+
+                        </button >
+
+
+                    </dl>
+                </div>
+
+
+            </div>
+
+            <AccountForm isOpen={openModal} onClose={() => setOpenModal(false)} />
 
 
 
         </div>
-
 
 
 

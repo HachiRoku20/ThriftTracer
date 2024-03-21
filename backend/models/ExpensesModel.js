@@ -21,6 +21,10 @@ const expensesSchema = new Schema({
     category: {
         type: String,
         required: true
+    },
+    account: {
+        type: String,
+        required: true
     }
 
 }, { timestamps: true })

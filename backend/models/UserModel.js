@@ -19,13 +19,32 @@ const userSchema = new Schema({
         required: true
     },
 
-    userMoney: {
-        type: Number,
-        required: true
-    },
-    Categories: {
-        type: [String]
+    userData: {
+        availableBalance: {
+            type: Number,
+            required: true
+        },
+        categories: {
+            type: [String]
+        },
+        accounts: {
+            type: [{
+                title: {
+                    type: String,
+                    required: true
+                },
+                amount: {
+                    type: Number
+                }
+
+            }]
+        },
+        netWorth: {
+            type: Number
+        }
     }
+
+
 
 }, { timestamps: true })
 
@@ -56,7 +75,13 @@ userSchema.statics.signup = async function (email, username, password) {
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
 
-    const user = await this.create({ email, username, password: hash, userMoney: 0 })
+    const defaultValues = {
+        availableBalance: 0,
+        categories: ["Food", "Transportation", "Entertainment", "Utilities", "Healthcare", "Clothing", "Travel", "PersonalCare"],
+        accounts: [{ title: "Cash", amount: 0 }]
+    }
+
+    const user = await this.create({ email, username, password: hash, userData: defaultValues })
 
     return user
 

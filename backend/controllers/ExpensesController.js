@@ -18,6 +18,12 @@ const getExpenses = async (req, res) => {
         const month = parseInt(req.query.month);
         const year = parseInt(req.query.year);
 
+        console.log(req.query.page)
+        console.log(req.query.month)
+        console.log(req.query.year)
+        // console.log(new Date(year, month - 1, 1))
+        // console.log(new Date(year, month, 0))
+
 
         // const expenses = await Expenses.find({ user_id })
         //     .limit(limit)
@@ -46,16 +52,16 @@ const getExpenses = async (req, res) => {
         ]);
 
         console.log(user_id)
-        console.log(new Date(year, month - 1, 1))
-        console.log(new Date(year, month, 0))
+        // console.log(new Date(year, month - 1, 1))
+        // console.log(new Date(year, month, 0))
 
         res.status(200).json(expenses)
 
     }
     catch (error) {
         res.status(400).json(error)
-        console.log(new Date(year, month - 1, 1))
-        console.log(new Date(year, month, 0))
+        // console.log(new Date(year, month - 1, 1))
+        // console.log(new Date(year, month, 0))
     }
 }
 
@@ -82,19 +88,22 @@ const getIdExpenses = async (req, res) => {
 
 
 const createExpenses = async (req, res) => {
-    const { title, description, amount, category } = req.body
-    console.log(amount)
+    const { title, description, amount: expenseAmount, category, account } = req.body
+    console.log(category)
 
     let emptyFields = []
 
     if (!title) {
         emptyFields.push('title')
     }
-    if (!amount) {
+    if (!expenseAmount) {
         emptyFields.push('amount')
     }
     if (!category) {
         emptyFields.push('category')
+    }
+    if (!account) {
+        emptyFields.push('accounters')
     }
     if (emptyFields.length > 0) {
         return res.status(400).json({ error: 'Please Fill in all the fields', emptyFields })
@@ -104,16 +113,24 @@ const createExpenses = async (req, res) => {
 
         const user_id = req.user._id
         const ExpensedUser = await User.findById(user_id);
-        if (ExpensedUser.userMoney < amount) {
-            return res.status(400).json({ error: 'Cannot Process Expense: Insufficient Amount of Money', emptyFields })
+        console.log(ExpensedUser)
+
+        const accountIndex = ExpensedUser.userData.accounts.findIndex(obj => obj.title === account);
+
+        if (ExpensedUser.userData.accounts[accountIndex].amount < expenseAmount) {
+            return res.status(400).json({ error: `Cannot Process Expense: Insufficient Amount of Money in ${account}`, emptyFields })
         }
 
+        console.log('AMOUNT VALIDATION RAN')
         const expenses = await Expenses.create({
-            user_id, title, description, amount, category
+            user_id, title, description, amount: expenseAmount, category, account
         })
 
 
-        ExpensedUser.userMoney -= amount;
+
+
+        ExpensedUser.userData.availableBalance -= expenseAmount;
+        ExpensedUser.userData.accounts[accountIndex].amount -= expenseAmount;
         await ExpensedUser.save(); // Save the updated user
 
         res.status(200).json(expenses)
