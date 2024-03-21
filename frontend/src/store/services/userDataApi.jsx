@@ -18,8 +18,23 @@ export const userDataApi = mainApi.injectEndpoints({
             },
         }),
 
+        addAccount: builder.mutation({
+            invalidatesTags: (result, error) => error ? [] : ['userDataTag'],
+            query: (args) => {
+                return {
+                    url: '/user/accounts',
+                    method: 'POST',
+                    body: {
+                        accountName: args.accountName,
+                        initialAmount: args.initialAmount,
+                    }
+
+                }
+            },
+        }),
+
     }),
 })
 
-export const { useGetUserDataQuery } = userDataApi
+export const { useGetUserDataQuery, useAddAccountMutation } = userDataApi
 

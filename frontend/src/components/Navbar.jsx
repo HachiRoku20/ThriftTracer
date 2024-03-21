@@ -6,21 +6,39 @@ import { IoHome } from "react-icons/io5";
 import { GiReceiveMoney } from "react-icons/gi";
 import { GiPayMoney } from "react-icons/gi";
 import { ImExit } from "react-icons/im";
+import { IoAddOutline } from "react-icons/io5";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
+import ExpensesForm from "./ExpensesForm";
+import IncomeForm from "./IncomeForm";
+
+
+
 
 
 
 
 const Navbar = () => {
 
-    const [navSwitch, setNavSwitch] = useState(false);
+    //*INITIALIZATIONS
+    const [expenseOpenModal, setExpenseOpenModal] = useState(false);
+    const [incomeOpenModal, setIncomeOpenModal] = useState(false);
     const { logout } = useLogout();
 
-    const handleNavSwitch = () => {
-        navSwitch ? setNavSwitch(false) : setNavSwitch(true);
-    }
 
+
+    //*LOGOUT LOGIC
     const handleLogout = () => {
         logout();
+    }
+
+
+    const expenseModalHandler = () => {
+        setExpenseOpenModal(prevState => !prevState)
+    }
+
+    const incomeModalHandler = () => {
+        setIncomeOpenModal(prevState => !prevState)
     }
 
 
@@ -63,6 +81,18 @@ const Navbar = () => {
                             </NavLink>
                         </li>
 
+                        <li>
+                            <button onClick={expenseModalHandler} className="flex w-full justify-center rounded-lg px-4 py-2 text-sm font-medium bg-emerald-500 hover:bg-emerald-600">
+                                <IoIosAddCircleOutline size={20} />
+                            </button>
+                        </li>
+
+                        <li>
+                            <button onClick={incomeModalHandler} className="flex w-full justify-center rounded-lg px-4 py-2 text-sm font-medium bg-emerald-500 hover:bg-emerald-600">
+                                <IoIosRemoveCircleOutline size={20} />
+                            </button>
+                        </li>
+
                     </ul>
 
                 </div>
@@ -74,14 +104,11 @@ const Navbar = () => {
 
 
             {/* NAVBAR MOBILE */}
-            <div>
+            <div className="border-b border-gray-600 sticky top-0 bg-[#121212]">
                 <ul className="flex justify-between items-center h-24 text-slate-50 font-semibold md:hidden">
-                    <li className="px-3.5 mx-1 hover:text-emerald-400">
-                        <Link to="/">
-                            <IoHome size={25} />
-
-                        </Link>
-                    </li>
+                    <NavLink to="/" className="px-3.5 mx-1 hover:text-emerald-400 aria-[current=page]:text-emerald-400 ">
+                        <IoHome size={25} />
+                    </NavLink>
 
                     <li className="px-3.5 mx-1 hover:text-red-600">
                         <Link to="/expenses">
@@ -103,31 +130,8 @@ const Navbar = () => {
             </div>
 
 
-            {/* NAVBAR MOBILE ICON */}
-            {/* <div onClick={handleNavSwitch} className="block md:hidden">
-                <FiAlignJustify size={25} color="mediumspringgreen" />
-            </div> */}
-
-            {/* NAVBAR MOBILE */}
-            {/* <div className={navSwitch ? 'fixed left-0 top-0 w-[50%] h-full border-r border-r-gray-700 bg-[#060711] ease-in-out duration-500' : 'fixed left-[-100%]'} >
-
-
-                <h1 className="w-full text-3xl font-bold text-emerald-400 p-4">Thrift Tracer</h1>
-
-                <ul className="pt-24  text-slate-50">
-                    <li className="p-3.5 hover:text-emerald-400">
-                        <Link to="/">
-                            <h1>HOME</h1>
-                        </Link>
-                    </li>
-
-                    <li className="p-3.5 hover:text-emerald-400">
-                        <Link to="/expenses">
-                            <h1>EXPENSES</h1>
-                        </Link>
-                    </li>
-                </ul>
-            </div> */}
+            <ExpensesForm isOpen={expenseOpenModal} onClose={() => setExpenseOpenModal(false)} />
+            <IncomeForm isOpen={incomeOpenModal} onClose={() => setIncomeOpenModal(false)} />
 
         </>
     )

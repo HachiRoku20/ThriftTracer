@@ -7,7 +7,6 @@ import IncomePage from '../components/IncomePage.jsx'
 import Login from '../components/Login.jsx'
 import Signup from '../components/Signup.jsx'
 import { useEffect } from 'react'
-import { useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { LOGIN } from '../store/features/auth/authSlice'
@@ -51,6 +50,7 @@ function App() {
 
     <BrowserRouter>
       <>
+
         <div className='flex flex-col md:flex-row'>
           {user && <Navbar />}
 

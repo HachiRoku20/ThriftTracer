@@ -1,9 +1,25 @@
 import { useGetUserDataQuery } from "../store/store.jsx";
+import AccountCard from "./utils/AccountCard.jsx";
+import AccountForm from "./Modals/AccountForm.jsx";
+import { useState, useEffect } from "react";
+
 
 const Home = () => {
 
     const { data } = useGetUserDataQuery();
-    console.log(data)
+    const [openModal, setOpenModal] = useState(false);
+
+    let formatter = Intl.NumberFormat('en', { notation: 'compact' });
+
+    const modalHandler = () => {
+        setOpenModal(prevState => !prevState)
+    }
+
+    useEffect(() => {
+        console.log(openModal)
+
+    }, [openModal])
+
 
 
     return (
@@ -16,15 +32,47 @@ const Home = () => {
                         <div className="mx-auto flex max-w-xs flex-col gap-y-4">
                             <dt className="text-base leading-7">Available Balance</dt>
                             <dd className="order-first text-3xl font-semibold tracking-tight sm:text-5xl">
-                                ₱{data?.availableBalance}
+                                ₱{formatter.format(data?.availableBalance)}
                             </dd>
                         </div>
+
+
                     </dl>
                 </div>
             </div>
 
-        </div>
+            <div className="bg-gray-800 mx-4 rounded-md py-6 sm:py-12 mt-2">
+                <h2 className="p-4 font-bold text-lg">ACCOUNTS: </h2>
 
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 font-bold">
+                    <dl className="flex flex-row overflow-x-auto gap-4">
+
+
+                        {data && data?.accounts?.map((accounts) => (
+                            <AccountCard key={accounts?._id} accountTitle={accounts?.title} accountAmount={accounts?.amount} />
+                        ))}
+
+                        <button onClick={modalHandler} className="mx-auto flex min-w-[45%] md:min-w-[30%] flex-col gap-y-4 rounded-md border-2 border-gray-700 p-4 items-center">
+
+                            <dt className="text-base leading-7">Add Account</dt>
+                            <dd className="order-first text-3xl font-semibold tracking-tight sm:text-5xl">
+                                +
+                            </dd>
+
+                        </button >
+
+
+                    </dl>
+                </div>
+
+
+            </div>
+
+            <AccountForm isOpen={openModal} onClose={() => setOpenModal(false)} />
+
+
+
+        </div>
 
 
 

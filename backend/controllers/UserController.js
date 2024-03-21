@@ -50,23 +50,6 @@ const addUser = async (req, res) => {
 }
 
 
-// const checkToken = async (req, res) => {
-//     const { user_id } = req.params
-
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//         return res.status(404).json({ error: 'DOES NOT EXIST' });
-//     }
-
-//     const user = await User.findById(id)
-
-//     if (!user) {
-//         return res.status(404).json({ error: 'DOES NOT EXIST' });
-//     } else {
-//         res.status(200).json(user)
-//     }
-
-// }
-
 const getUserData = async (req, res) => {
 
     const user_id = req.user._id
@@ -89,4 +72,61 @@ const getUserData = async (req, res) => {
 
 }
 
-export { addUser, getUserData, loginUser };
+const addNewAccount = async (req, res) => {
+
+    const user_id = req.user._id
+    const { accountName, initialAmount } = req.body
+
+    let emptyFields = []
+
+    if (!accountName) {
+        emptyFields.push('accountName')
+    }
+    if (!initialAmount) {
+        emptyFields.push('initialAmount')
+    }
+    if (emptyFields.length > 0) {
+        return res.status(400).json({ error: 'Please Fill in all the fields', emptyFields })
+    }
+
+
+    if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(404).json({ error: 'DOES NOT EXIST' });
+    }
+
+
+    const user = await User.findById(user_id)
+
+
+    if (!user) {
+
+        return res.status(404).json({ error: 'DOES NOT EXIST' });
+
+    } else {
+
+        try {
+            const newAccount = {
+                title: accountName,
+                amount: initialAmount
+            };
+
+            user.userData.accounts.push(newAccount);
+            await user.save();
+
+            return res.status(200).json({ message: 'Account added successfully' })
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Something Went Wrong' });
+        }
+
+        // ADD new Account to existing object in database named userData.Accounts
+
+    }
+
+
+
+}
+
+
+
+export { addUser, getUserData, loginUser, addNewAccount };

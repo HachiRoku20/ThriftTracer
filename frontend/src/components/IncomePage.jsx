@@ -79,7 +79,7 @@ const IncomePage = () => {
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
 
-            <h3 className="mx-auto w-fit font-bold text-orange-600 text-4xl">EXPENSES</h3>
+            <h3 className="mx-auto w-fit font-bold text-slate-100 text-4xl">INCOME</h3>
 
             <IncomeForm />
 

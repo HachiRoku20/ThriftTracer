@@ -11,7 +11,7 @@ import { useDeleteExpenseMutation } from "../store/store.jsx";
 
 
 
-const ExpensesPage = () => {
+const ExpensesPage = ({ pageName }) => {
 
     // *DELETE Query
     const [deleteExpense, results] = useDeleteExpenseMutation()
@@ -27,6 +27,19 @@ const ExpensesPage = () => {
     // *GET Query
     const { data, error, isloading } = useGetExpensesQuery({ page, monthQuery, yearQuery });
     console.log(data, error, isloading);
+
+
+    //*MODAL LOGIC
+    const [openModal, setOpenModal] = useState(false);
+
+    const modalHandler = () => {
+        setOpenModal(prevState => !prevState)
+    }
+
+    useEffect(() => {
+        console.log(openModal)
+
+    }, [openModal])
 
 
 
@@ -78,9 +91,7 @@ const ExpensesPage = () => {
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
 
-            <h3 className="mx-auto w-fit font-bold text-orange-600 text-4xl">EXPENSES</h3>
-
-            <ExpensesForm />
+            <h3 className="mx-auto w-fit font-bold text-slate-100 text-4xl">EXPENSES</h3>
 
             <div className="flex flex-col justify-around md:flex-row md:flex-wrap">
                 <div className="flex w-full justify-between">

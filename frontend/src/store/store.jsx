@@ -23,5 +23,5 @@ export const store = configureStore({
 setupListeners(store.dispatch)
 
 export { useGetExpensesQuery, useAddExpenseMutation, useDeleteExpenseMutation } from './services/expensesApi'
-export { useGetUserDataQuery } from './services/userDataApi.jsx'
+export { useGetUserDataQuery, useAddAccountMutation } from './services/userDataApi.jsx'
 export { useGetIncomeQuery, useAddIncomeMutation, useDeleteIncomeMutation } from './services/incomeApi'
