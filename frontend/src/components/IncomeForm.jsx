@@ -94,7 +94,9 @@ const IncomeForm = memo(({ isOpen, onClose }) => {
             <div className=" fixed top-0 right-0 left-0 z-50 justify-center items-center inset-0 h-fit bg-[#121212] mx-10 my-auto md:mx-auto p-4 py md:max-w-md rounded-md border border-gray-500 text-slate-50">
                 <div className='w-full flex justify-end'><button onClick={onClose}><IoIosCloseCircleOutline size={25} />
                 </button></div>
+                <h2 className=' font-bold text-center'>CREATE INCOME</h2>
                 <form className="flex flex-col text-slate-50" onSubmit={handleSubmit}>
+
 
 
                     <label className="p-4"> Title </label>
