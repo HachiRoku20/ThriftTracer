@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { useAddAccountMutation } from '../../store/store'
 import { createPortal } from 'react-dom'
 import BackdropBlur from '../utils/BackdropBlur'
@@ -7,9 +7,9 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 
 
 
-const AccountForm = ({ isOpen, onClose }) => {
+const AccountForm = memo(({ isOpen, onClose }) => {
 
-    if (!isOpen) return null;
+    console.log("ACCOUNT FORM RENDERS")
 
     const [accountName, setAccountName] = useState('')
     const [initialAmount, setInitialAmount] = useState(0)
@@ -58,7 +58,7 @@ const AccountForm = ({ isOpen, onClose }) => {
 
     }
 
-
+    if (!isOpen) return null;
     return createPortal(
 
         <>
@@ -104,6 +104,6 @@ const AccountForm = ({ isOpen, onClose }) => {
         ,
         document.getElementById('modal')
     )
-}
+})
 
 export default AccountForm

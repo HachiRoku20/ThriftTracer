@@ -1,7 +1,8 @@
 import { useGetUserDataQuery } from "../store/store.jsx";
 import AccountCard from "./utils/AccountCard.jsx";
 import AccountForm from "./Modals/AccountForm.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+
 
 
 const Home = () => {
@@ -9,11 +10,16 @@ const Home = () => {
     const { data } = useGetUserDataQuery();
     const [openModal, setOpenModal] = useState(false);
 
+
     let formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
-    const modalHandler = () => {
+    const modalHandler = useCallback(() => {
         setOpenModal(prevState => !prevState)
-    }
+    }, [openModal])
+
+    const closeModalHandler = useCallback(() => {
+        setOpenModal(prevState => !prevState)
+    }, [openModal])
 
     useEffect(() => {
         console.log(openModal)
@@ -68,7 +74,7 @@ const Home = () => {
 
             </div>
 
-            <AccountForm isOpen={openModal} onClose={() => setOpenModal(false)} />
+            <AccountForm isOpen={openModal} onClose={closeModalHandler} />
 
 
 
