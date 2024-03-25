@@ -7,7 +7,7 @@ import User from "../models/UserModel.js"
 const getIncome = async (req, res) => {
 
     const page = req.query.page || 1;
-    const limit = 5
+    const limit = 6;
 
     try {
         const user_id = req.user._id.toString()
