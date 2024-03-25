@@ -18,7 +18,7 @@ export const useLogin = () => {
         try {
             console.log(JSON.stringify({ email, password }))
 
-            const response = await fetch('https://thrifttracer-backend.onrender.com/user/login', {
+            const response = await fetch('http://localhost:5555/user/login', {
                 method: 'POST',
                 body: JSON.stringify({ email, password }),
                 headers: {
