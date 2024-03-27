@@ -11,7 +11,6 @@ const Home = () => {
     const [openModal, setOpenModal] = useState(false);
 
     //*NUMBER FORMATTERS
-    let compactFormatter = Intl.NumberFormat('en', { notation: 'compact' });
     let commaFormatter = new Intl.NumberFormat('en', {
         useGrouping: true
     });
