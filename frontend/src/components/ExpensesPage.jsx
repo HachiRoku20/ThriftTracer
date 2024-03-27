@@ -11,7 +11,7 @@ import { useDeleteExpenseMutation } from "../store/store.jsx";
 
 
 
-const ExpensesPage = ({ pageName }) => {
+const ExpensesPage = () => {
 
     // *DELETE Query
     const [deleteExpense, results] = useDeleteExpenseMutation()

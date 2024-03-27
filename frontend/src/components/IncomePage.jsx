@@ -81,7 +81,7 @@ const IncomePage = () => {
 
             <h3 className="mx-auto w-fit font-bold text-slate-100 text-4xl">INCOME</h3>
 
-            <IncomeForm />
+
 
             <div className="flex flex-col justify-around md:flex-row md:flex-wrap">
                 <div className="flex w-full justify-between">

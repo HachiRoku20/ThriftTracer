@@ -12,7 +12,7 @@ import BackdropBlur from "./utils/BackdropBlur";
 
 const IncomeForm = memo(({ isOpen, onClose }) => {
 
-    if (!isOpen) return null;
+    console.log("INCOME FORM RENDERS")
 
     const { data } = useGetUserDataQuery()
     const [addIncome, results] = useAddIncomeMutation();
@@ -84,7 +84,7 @@ const IncomeForm = memo(({ isOpen, onClose }) => {
 
 
 
-
+    if (!isOpen) return null;
 
 
     return createPortal(

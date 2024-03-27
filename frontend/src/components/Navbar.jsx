@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom"
 import { FiAlignJustify } from "react-icons/fi";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useLogout } from "../hooks/useLogout";
 import { IoHome } from "react-icons/io5";
 import { GiReceiveMoney } from "react-icons/gi";
@@ -23,6 +23,7 @@ const Navbar = () => {
     //*INITIALIZATIONS
     const [expenseOpenModal, setExpenseOpenModal] = useState(false);
     const [incomeOpenModal, setIncomeOpenModal] = useState(false);
+
     const { logout } = useLogout();
 
 
@@ -33,13 +34,16 @@ const Navbar = () => {
     }
 
 
-    const expenseModalHandler = () => {
+    const expenseModalHandler = useCallback(() => {
         setExpenseOpenModal(prevState => !prevState)
-    }
+    }, [expenseOpenModal])
 
-    const incomeModalHandler = () => {
+    const incomeModalHandler = useCallback(() => {
         setIncomeOpenModal(prevState => !prevState)
-    }
+    }, [incomeOpenModal])
+
+    const closeExpenseModalHandler = useCallback(() => setExpenseOpenModal(prevState => !prevState), [expenseOpenModal])
+    const closeIncomeModalHandler = useCallback(() => setIncomeOpenModal(prevState => !prevState), [incomeOpenModal])
 
 
 
@@ -82,13 +86,13 @@ const Navbar = () => {
                         </li>
 
                         <li>
-                            <button onClick={expenseModalHandler} className="flex w-full justify-center rounded-lg px-4 py-2 text-sm font-medium bg-emerald-500 hover:bg-emerald-600">
+                            <button onClick={incomeModalHandler} className="flex w-full justify-center rounded-lg px-4 py-2 text-sm font-medium bg-emerald-500 hover:bg-emerald-600">
                                 <IoIosAddCircleOutline size={20} />
                             </button>
                         </li>
 
                         <li>
-                            <button onClick={incomeModalHandler} className="flex w-full justify-center rounded-lg px-4 py-2 text-sm font-medium bg-emerald-500 hover:bg-emerald-600">
+                            <button onClick={expenseModalHandler} className="flex w-full justify-center rounded-lg px-4 py-2 text-sm font-medium bg-emerald-500 hover:bg-emerald-600">
                                 <IoIosRemoveCircleOutline size={20} />
                             </button>
                         </li>
@@ -130,8 +134,10 @@ const Navbar = () => {
             </div>
 
 
-            <ExpensesForm isOpen={expenseOpenModal} onClose={() => setExpenseOpenModal(false)} />
-            <IncomeForm isOpen={incomeOpenModal} onClose={() => setIncomeOpenModal(false)} />
+            <ExpensesForm isOpen={expenseOpenModal} onClose={closeExpenseModalHandler} />
+            <IncomeForm isOpen={incomeOpenModal} onClose={closeIncomeModalHandler} />
+
+
 
         </>
     )
