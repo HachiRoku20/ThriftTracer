@@ -14,7 +14,7 @@ export const useSignup = () => {
         setError(null)
 
         try {
-            const response = await fetch('http://localhost:5555/user/signup', {
+            const response = await fetch('https://thrifttracer-backend.onrender.com/user/signup', {
                 method: 'POST',
                 body: JSON.stringify({ email, username, password }),
                 headers: {
