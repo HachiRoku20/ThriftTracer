@@ -10,8 +10,11 @@ const Home = () => {
     const { data } = useGetUserDataQuery();
     const [openModal, setOpenModal] = useState(false);
 
-
-    let formatter = Intl.NumberFormat('en', { notation: 'compact' });
+    //*NUMBER FORMATTERS
+    let compactFormatter = Intl.NumberFormat('en', { notation: 'compact' });
+    let commaFormatter = new Intl.NumberFormat('en', {
+        useGrouping: true
+    });
 
     const modalHandler = useCallback(() => {
         setOpenModal(prevState => !prevState)
@@ -38,7 +41,7 @@ const Home = () => {
                         <div className="mx-auto flex max-w-xs flex-col gap-y-4">
                             <dt className="text-base leading-7">Available Balance</dt>
                             <dd className="order-first text-3xl font-semibold tracking-tight sm:text-5xl">
-                                ₱{formatter.format(data?.availableBalance)}
+                                ₱{commaFormatter.format(data?.availableBalance)}
                             </dd>
                         </div>
 
@@ -47,8 +50,8 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="bg-gray-800 mx-4 rounded-md py-6 sm:py-12 mt-2">
-                <h2 className="p-4 font-bold text-lg">ACCOUNTS: </h2>
+            <div className="bg-gray-800 mx-4 rounded-md py-6 sm:pb-12 mt-2">
+                <h2 className="p-4 sm:pt-0 sm:mb-4 font-bold text-lg">ACCOUNTS: </h2>
 
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 font-bold">
                     <dl className="flex flex-row overflow-x-auto gap-4">
