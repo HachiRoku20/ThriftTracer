@@ -1,5 +1,5 @@
 import express, { response } from "express"
-import { addUser, getUserData, loginUser, addNewAccount } from "../controllers/UserController.js";
+import { addUser, getUserData, loginUser, addNewAccount, addNewCategory } from "../controllers/UserController.js";
 import { requireAuth } from '../middleware/requireAuth.js'
 
 
@@ -19,6 +19,7 @@ router.use(requireAuth);
 
 router.get('/', getUserData)
 router.post('/accounts', addNewAccount)
+router.post('/categories', addNewCategory)
 
 
 

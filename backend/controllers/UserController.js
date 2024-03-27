@@ -111,6 +111,7 @@ const addNewAccount = async (req, res) => {
             };
 
             user.userData.accounts.push(newAccount);
+            user.userData.availableBalance += amount;
             await user.save();
 
             return res.status(200).json({ message: 'Account added successfully' })
@@ -127,6 +128,52 @@ const addNewAccount = async (req, res) => {
 
 }
 
+const addNewCategory = async (req, res) => {
+
+    const user_id = req.user._id
+    const { categoryName } = req.body
+
+    let emptyFields = []
+
+    if (!categoryName) {
+        emptyFields.push('categoryName')
+    }
+    if (emptyFields.length > 0) {
+        return res.status(400).json({ error: 'Please Fill in all the fields', emptyFields })
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(404).json({ error: 'DOES NOT EXIST' });
+    }
 
 
-export { addUser, getUserData, loginUser, addNewAccount };
+    const user = await User.findById(user_id)
+
+
+    if (!user) {
+
+        return res.status(404).json({ error: 'DOES NOT EXIST' });
+
+    } else {
+
+        try {
+
+
+            user.userData.categories.push(categoryName);
+            await user.save();
+
+            return res.status(200).json({ message: 'Category added successfully' })
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Something Went Wrong' });
+        }
+
+    }
+
+
+
+}
+
+
+
+export { addUser, getUserData, loginUser, addNewAccount, addNewCategory };
