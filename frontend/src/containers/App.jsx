@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Home from '../components/Home.jsx'
+import Home from '../components/Layouts/Home.jsx'
 import Navbar from '../components/Navbar.jsx'
-import ExpensesForm from '../components/ExpensesForm.jsx'
-import ExpensesPage from '../components/ExpensesPage.jsx'
-import IncomePage from '../components/IncomePage.jsx'
+
+import ExpensesPage from '../components/Layouts/ExpensesPage.jsx'
+import IncomePage from '../components/Layouts/IncomePage.jsx'
 import Login from '../components/Login.jsx'
 import Signup from '../components/Signup.jsx'
 import { useEffect } from 'react'

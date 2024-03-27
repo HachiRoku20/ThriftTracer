@@ -1,6 +1,6 @@
-import { useGetUserDataQuery } from "../store/store.jsx";
-import AccountCard from "./utils/AccountCard.jsx";
-import AccountForm from "./Modals/AccountForm.jsx";
+import { useGetUserDataQuery } from "../../store/store.jsx";
+import AccountCard from "../utils/AccountCard.jsx";
+import AccountForm from "../Modals/AccountForm.jsx";
 import { useState, useEffect, useCallback } from "react";
 
 
@@ -60,10 +60,10 @@ const Home = () => {
                             <AccountCard key={accounts?._id} accountTitle={accounts?.title} accountAmount={accounts?.amount} />
                         ))}
 
-                        <button onClick={modalHandler} className="mx-auto flex min-w-[45%] md:min-w-[30%] flex-col gap-y-4 rounded-md border-2 border-gray-700 p-4 items-center">
+                        <button onClick={modalHandler} className="mx-auto py-4 px-1 flex min-w-[45%] md:min-w-[30%] flex-col gap-y-4 rounded-md border-2 border-gray-700 items-center">
 
-                            <dt className="text-base leading-7">Add Account</dt>
-                            <dd className="order-first text-3xl font-semibold tracking-tight sm:text-5xl">
+                            <dt className="text-base md:leading-7">ADD ACCOUNT</dt>
+                            <dd className="order-first text-l font-semibold md:text-5xl">
                                 +
                             </dd>
 

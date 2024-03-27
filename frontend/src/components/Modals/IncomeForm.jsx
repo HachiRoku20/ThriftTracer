@@ -1,13 +1,13 @@
 import { useState, useEffect, memo } from "react"
-import { useAddExpenseMutation } from "../store/store"
+import { useAddExpenseMutation } from "../../store/store"
 import { Listbox } from '@headlessui/react'
-import { useGetUserDataQuery, useAddIncomeMutation } from "../store/store.jsx";
+import { useGetUserDataQuery, useAddIncomeMutation } from "../../store/store.jsx";
 import { FaChevronDown } from "react-icons/fa6";
 
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { createPortal } from "react-dom";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import BackdropBlur from "./utils/BackdropBlur";
+import BackdropBlur from "../utils/BackdropBlur";
 
 
 const IncomeForm = memo(({ isOpen, onClose }) => {

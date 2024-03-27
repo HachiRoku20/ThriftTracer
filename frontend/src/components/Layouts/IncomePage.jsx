@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react";
-import ExpensesComponent from "./ExpensesComponent.jsx";
-import ExpensesForm from '../components/ExpensesForm.jsx'
-import PaginationButtons from "./utils/PaginationButtons.jsx";
-import MonthlyFilterButtons from "./utils/MonthlyFilterButtons.jsx";
-import { useLogout } from "../hooks/useLogout.jsx";
+import PaginationButtons from "../utils/PaginationButtons.jsx";
+import MonthlyFilterButtons from "../utils/MonthlyFilterButtons.jsx";
+import { useGetIncomeQuery, useDeleteExpenseMutation } from "../../store/store";
+import TransactionCard from "../utils/TransactionCard.jsx";
 import { FaArrowUp } from "react-icons/fa";
 
-import { useGetExpensesQuery } from "../store/store.jsx";
-import { useDeleteExpenseMutation } from "../store/store.jsx";
 
-
-
-const ExpensesPage = () => {
+const IncomePage = () => {
 
     // *DELETE Query
-    const [deleteExpense, results] = useDeleteExpenseMutation()
+    const [deleteIncome, results] = useDeleteExpenseMutation()
 
     const [page, setPage] = useState(1)
-
     const date = new Date();
 
     const [monthQuery, setMonthQuery] = useState(date.getMonth() + 1)
@@ -25,21 +19,8 @@ const ExpensesPage = () => {
 
 
     // *GET Query
-    const { data, error, isloading } = useGetExpensesQuery({ page, monthQuery, yearQuery });
-    console.log(data, error, isloading);
+    const { data, isLoading, error } = useGetIncomeQuery({ page, monthQuery, yearQuery })
 
-
-    //*MODAL LOGIC
-    const [openModal, setOpenModal] = useState(false);
-
-    const modalHandler = () => {
-        setOpenModal(prevState => !prevState)
-    }
-
-    useEffect(() => {
-        console.log(openModal)
-
-    }, [openModal])
 
 
 
@@ -49,6 +30,7 @@ const ExpensesPage = () => {
     const scrollToTop = () => {
         window.scrollTo(0, 0);
     };
+
 
     // *Previous Page Setter
     const handlePrevPage = () => {
@@ -73,6 +55,9 @@ const ExpensesPage = () => {
         } else {
             setMonthQuery(prevMonth => prevMonth - 1)
         }
+
+
+        console.log(monthQuery, yearQuery)
     }
 
 
@@ -84,14 +69,18 @@ const ExpensesPage = () => {
         } else {
             setMonthQuery(prevMonth => prevMonth + 1)
         }
-    }
 
+
+        console.log(monthQuery, yearQuery)
+    }
 
 
     return (
         <div className="container mx-auto text-slate-100 max-w-screen-xl">
 
-            <h3 className="mx-auto w-fit font-bold text-slate-100 text-4xl">EXPENSES</h3>
+            <h3 className="mx-auto p-4 w-fit font-bold text-slate-100 text-4xl">INCOME</h3>
+
+
 
             <div className="flex flex-col justify-around md:flex-row md:flex-wrap">
                 <div className="flex w-full justify-between">
@@ -99,8 +88,8 @@ const ExpensesPage = () => {
                     <PaginationButtons page={page} onPrevPage={handlePrevPage} onNextPage={handleNextPage} />
                 </div>
                 <div className="w-full md:grid grid-cols-2 grid-flow-row " >
-                    {data && data.map((expense) => (
-                        <ExpensesComponent key={expense._id} transaction={expense} onClickHandler={deleteExpense} />
+                    {data && data.map((income) => (
+                        <TransactionCard key={income._id} transaction={income} onClickHandler={deleteIncome} />
                     ))}
                 </div>
                 <div className="flex justify-center p-2 "><button className="'bg-gray-800  px-2 py-1 rounded-full mx-2 shadow-sm shadow-black bg-gray-800 active:bg-gray-900 md:hidden" onClick={scrollToTop}><FaArrowUp />
@@ -115,4 +104,4 @@ const ExpensesPage = () => {
     )
 }
 
-export default ExpensesPage;
+export default IncomePage;

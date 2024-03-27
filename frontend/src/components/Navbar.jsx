@@ -9,8 +9,8 @@ import { ImExit } from "react-icons/im";
 import { IoAddOutline } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
-import ExpensesForm from "./ExpensesForm";
-import IncomeForm from "./IncomeForm";
+import ExpensesForm from "./Modals/ExpensesForm";
+import IncomeForm from "./Modals/IncomeForm";
 
 
 

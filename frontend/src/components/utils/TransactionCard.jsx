@@ -1,8 +1,7 @@
 import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
-import { useDeleteExpenseMutation } from "../store/store";
 
-const ExpensesComponent = ({ transaction, onClickHandler }) => {
+const TransactionCard = ({ transaction, onClickHandler }) => {
 
 
 
@@ -37,4 +36,4 @@ const ExpensesComponent = ({ transaction, onClickHandler }) => {
     )
 }
 
-export default ExpensesComponent;
+export default TransactionCard;
